@@ -1,0 +1,47 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+interface AuthState {
+  isAuthenticated: boolean;
+  anniversaryDate: string | null;
+}
+
+const initialState: AuthState = {
+  isAuthenticated: false,
+  anniversaryDate: null,
+};
+
+const authSlice = createSlice({
+  name: 'auth',
+  initialState,
+  reducers: {
+    login: (
+      state,
+      action: PayloadAction<{ day: number; month: number; year: number }>,
+    ) => {
+      const { day, month, year } = action.payload;
+
+      // Ngày kỷ niệm cố định (ví dụ 1-1-2025)
+      const validDay = 1;
+      const validMonth = 1;
+      const validYear = 2025;
+
+      if (day === validDay && month === validMonth && year === validYear) {
+        state.isAuthenticated = true;
+        state.anniversaryDate = `${year}-${String(month).padStart(
+          2,
+          '0',
+        )}-${String(day).padStart(2, '0')}`;
+      } else {
+        throw new Error('Invalid anniversary date');
+      }
+    },
+    logout: (state) => {
+      state.isAuthenticated = false;
+      state.anniversaryDate = null;
+    },
+  },
+});
+
+export const { login, logout } = authSlice.actions;
+export default authSlice.reducer;
+
