@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { login } from '../features/authSlice';
 import type { RootState } from '../store/store';
-import FaceAnimal from './ButtonAnimation/faceAnimal';
+import { FaceAnimal } from './ButtonAnimation';
 
 interface LoginModalProps {
   isOpen: boolean;
