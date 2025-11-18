@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { RootState } from '../store/store';
+import type { RootState } from '../store/store';
 import { Link } from 'react-router-dom';
 
 const Menu = () => {
@@ -42,7 +42,7 @@ const Menu = () => {
 
             <div className="mt-6 md:mt-0 md:w-1/3 flex md:flex-col items-center justify-center gap-4">
               <div className="text-6xl">🔒</div>
-              <Link to="/login" className="btn-primary">
+              <Link to="/" className="btn-primary">
                 Đăng nhập để tiếp tục
               </Link>
             </div>

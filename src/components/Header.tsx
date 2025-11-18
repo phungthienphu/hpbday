@@ -1,9 +1,22 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../store/store';
+import type { RootState } from '../store/store';
 import { logout } from '../features/authSlice';
+import DraggableNavItem from './DraggableNavItem';
 
-const Header = () => {
+interface HeaderProps {
+  onNavItemDragStart: (itemId: string) => void;
+  onNavItemDragEnd: (itemId: string, hasMoved: boolean) => void;
+  onNavItemPositionChange: (itemId: string, x: number, y: number) => void;
+  shouldResetItems?: boolean;
+}
+
+const Header = ({
+  onNavItemDragStart,
+  onNavItemDragEnd,
+  onNavItemPositionChange,
+  shouldResetItems = false,
+}: HeaderProps) => {
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -16,7 +29,7 @@ const Header = () => {
   return (
     <header className="w-full">
       <nav className="flex items-center justify-between border-b border-black/10 pb-4">
-        {/* Logo + title */}
+        {/* Logo + title - không draggable */}
         <Link to="/" className="flex items-center space-x-3 group">
           <div className="w-10 h-10 bg-gradient-to-br from-pastel-pink to-pastel-peach rounded-full flex items-center justify-center shadow-md group-hover:scale-110 transition-all duration-300">
             <span className="text-xl">🎂</span>
@@ -31,26 +44,58 @@ const Header = () => {
           </div>
         </Link>
 
-        {/* Navigation Links */}
+        {/* Navigation Links - draggable */}
         <div className="flex items-center space-x-6 text-xs md:text-sm tracking-[0.25em] uppercase">
-          <Link
+          <DraggableNavItem
+            itemId="home"
             to="/"
+            onPositionChange={(x, y) => onNavItemPositionChange('home', x, y)}
+            onDragStart={() => onNavItemDragStart('home')}
+            onDragEnd={(hasMoved) => onNavItemDragEnd('home', hasMoved)}
+            shouldReset={shouldResetItems}
             className="text-gray-800 hover:text-gray-900 transition-all duration-200"
           >
-            Home
-          </Link>
-          <Link
+            🎂 Home
+          </DraggableNavItem>
+
+          <DraggableNavItem
+            itemId="event"
             to="/menu"
+            onPositionChange={(x, y) => onNavItemPositionChange('event', x, y)}
+            onDragStart={() => onNavItemDragStart('event')}
+            onDragEnd={(hasMoved) => onNavItemDragEnd('event', hasMoved)}
+            shouldReset={shouldResetItems}
             className="text-gray-800 hover:text-gray-900 transition-all duration-200"
           >
-            Event
-          </Link>
-          <Link
+           🎂 Event
+          </DraggableNavItem>
+
+          <DraggableNavItem
+            itemId="about"
             to="/about"
+            onPositionChange={(x, y) => onNavItemPositionChange('about', x, y)}
+            onDragStart={() => onNavItemDragStart('about')}
+            onDragEnd={(hasMoved) => onNavItemDragEnd('about', hasMoved)}
+            shouldReset={shouldResetItems}
             className="text-gray-800 hover:text-gray-900 transition-all duration-200"
           >
-            About
-          </Link>
+           🎂 About
+          </DraggableNavItem>
+
+          {isAuthenticated ? (
+            <DraggableNavItem
+              itemId="memories"
+              to="/memories"
+              onPositionChange={(x, y) => onNavItemPositionChange('memories', x, y)}
+              onDragStart={() => onNavItemDragStart('memories')}
+              onDragEnd={(hasMoved) => onNavItemDragEnd('memories', hasMoved)}
+              shouldReset={shouldResetItems}
+              // onResetComplete={onResetComplete}
+              className="text-gray-800 hover:text-gray-900 transition-all duration-200"
+            >
+             🎂 Memories
+            </DraggableNavItem>
+          ) : null}
 
           {isAuthenticated && (
             <button
@@ -67,4 +112,3 @@ const Header = () => {
 };
 
 export default Header;
-

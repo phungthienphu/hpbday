@@ -11,15 +11,32 @@ interface CakeProps {
 const Cake = ({ onPositionChange, onDragStart, onDragEnd, isBeingEaten }: CakeProps) => {
   const cakeRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const dragRafRef = useRef<number | null>(null);
+  const lastUpdateRef = useRef(0);
 
   const handleDrag = () => {
     if (!cakeRef.current) return;
     
-    const rect = cakeRef.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    
-    onPositionChange(centerX, centerY);
+    // Throttle position updates với requestAnimationFrame
+    const now = performance.now();
+    if (now - lastUpdateRef.current < 16) { // ~60fps
+      return;
+    }
+    lastUpdateRef.current = now;
+
+    if (dragRafRef.current) {
+      cancelAnimationFrame(dragRafRef.current);
+    }
+
+    dragRafRef.current = requestAnimationFrame(() => {
+      if (!cakeRef.current) return;
+      
+      const rect = cakeRef.current.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      
+      onPositionChange(centerX, centerY);
+    });
   };
 
   if (isBeingEaten) return null;
@@ -36,6 +53,12 @@ const Cake = ({ onPositionChange, onDragStart, onDragEnd, isBeingEaten }: CakePr
       }}
       onDrag={handleDrag}
       onDragEnd={() => {
+        // Cleanup RAF
+        if (dragRafRef.current) {
+          cancelAnimationFrame(dragRafRef.current);
+          dragRafRef.current = null;
+        }
+        
         setIsDragging(false);
         onDragEnd();
       }}

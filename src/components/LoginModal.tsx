@@ -1,74 +1,84 @@
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import dayjs from 'dayjs';
-import confetti from 'canvas-confetti';
-import { login } from '../features/authSlice';
-import type { RootState } from '../store/store';
-import { FaceAnimal, Cake } from './ButtonAnimation';
-import { CalendarGrid, DateBadge } from './Calendar';
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
+import confetti from "canvas-confetti";
+import { login } from "../features/authSlice";
+import type { RootState } from "../store/store";
+import { Cake } from "./ButtonAnimation";
+import { CalendarGrid, DateBadge } from "./Calendar";
+import { useMonster } from "../contexts/MonsterContext";
 
 interface LoginModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onCalendarOpen?: () => void;
+  onCalendarClose?: () => void;
 }
 
-const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
+const LoginModal = ({
+  isOpen,
+  onClose,
+  onCalendarOpen,
+  onCalendarClose,
+}: LoginModalProps) => {
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs | null>(null);
   const [viewDate, setViewDate] = useState(dayjs());
   const [error, setError] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
-  
-  // Cake feeding logic
-  const [cakePosition, setCakePosition] = useState({ x: 0, y: 0 });
-  const [monsterPosition, setMonsterPosition] = useState({ x: 0, y: 0 });
-  const [distanceToCake, setDistanceToCake] = useState(1000);
-  const [isEating, setIsEating] = useState(false);
-  const [isDraggingCake, setIsDraggingCake] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // Use Monster Context
+  const {
+    monsterPosition,
+    setDistanceToMonster,
+    setIsMonsterEating,
+    setIsDraggingFood,
+  } = useMonster();
+
+  // Cake position
+  const [cakePosition, setCakePosition] = useState({ x: 0, y: 0 });
+
+  // Notify context về dragging status
+  useEffect(() => {
+    // Birthday cake mode chỉ active khi chưa login và chưa mở calendar
+    const isCakeVisible = !isAuthenticated && !showCalendar;
+    if (!isCakeVisible) {
+      setIsDraggingFood(false);
+      setDistanceToMonster(1000);
+    }
+  }, [isAuthenticated, showCalendar, setIsDraggingFood, setDistanceToMonster]);
 
   if (!isOpen) return null;
 
   const handleCakePositionChange = (x: number, y: number) => {
     setCakePosition({ x, y });
+    // Calculate distance to monster REALTIME
     const distance = Math.sqrt(
       Math.pow(x - monsterPosition.x, 2) + Math.pow(y - monsterPosition.y, 2)
     );
-    setDistanceToCake(distance);
-  };
-
-  const handleMonsterPositionChange = (x: number, y: number) => {
-    setMonsterPosition({ x, y });
-    
-    // Recalculate distance
-    if (cakePosition.x !== 0 || cakePosition.y !== 0) {
-      const distance = Math.sqrt(
-        Math.pow(cakePosition.x - x, 2) + Math.pow(cakePosition.y - y, 2)
-      );
-      setDistanceToCake(distance);
-    }
+    setDistanceToMonster(distance);
   };
 
   const handleFeedMonster = () => {
-    if (isEating) return;
-    
-    setIsEating(true);
+    setIsMonsterEating(true);
 
-    // Confetti khi ăn
+    // Confetti
     confetti({
       particleCount: 30,
       spread: 60,
       origin: { x: 0.5, y: 0.35 },
-      colors: ['#FFA500', '#FFD700', '#FF6347'],
+      colors: ["#FFA500", "#FFD700", "#FF6347"],
     });
 
-    // Sau 0.5s mở calendar
+    // Mở calendar sau 0.5s
     setTimeout(() => {
-      setIsEating(false);
+      setIsMonsterEating(false);
       setShowCalendar(true);
+      onCalendarOpen?.();
     }, 500);
   };
 
@@ -86,25 +96,26 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
           day: selectedDate.date(),
           month: selectedDate.month() + 1,
           year: selectedDate.year(),
-        }),
+        })
       );
-      
+
       // Success confetti
       confetti({
         particleCount: 100,
         spread: 70,
         origin: { y: 0.6 },
-        colors: ['#FFA500', '#FFD700', '#FF6347'],
+        colors: ["#FFA500", "#FFD700", "#FF6347"],
       });
 
       setTimeout(() => {
         onClose();
         setShowCalendar(false);
-        navigate('/menu');
       }, 300);
     } catch {
       setError(true);
       setTimeout(() => setError(false), 3000);
+    } finally {
+      navigate("/menu");
     }
   };
 
@@ -112,43 +123,40 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
     setShowCalendar(false);
     setSelectedDate(null);
     setError(false);
+    onCalendarClose?.();
   };
 
   return (
     <>
-      {/* Face Monster & Cake - Only show when not authenticated and no calendar */}
+      {/* Birthday Cake - chỉ hiện khi chưa login */}
       {!isAuthenticated && !showCalendar && (
-        <>
-          <FaceAnimal 
-            distanceToCake={distanceToCake} 
-            isEating={isEating}
-            onPositionChange={handleMonsterPositionChange}
-          />
-          <Cake
-            onPositionChange={handleCakePositionChange}
-            onDragStart={() => setIsDraggingCake(true)}
-            onDragEnd={() => {
-              setIsDraggingCake(false);
-              // Kiểm tra khoảng cách khi thả chuột
-              if (distanceToCake < 80 && !isEating) {
-                handleFeedMonster();
-              }
-            }}
-            isBeingEaten={isEating}
-          />
-        </>
+        <Cake
+          onPositionChange={handleCakePositionChange}
+          onDragStart={() => setIsDraggingFood(true)}
+          onDragEnd={() => {
+            setIsDraggingFood(false);
+            // Check distance khi thả
+            const distance = Math.sqrt(
+              Math.pow(cakePosition.x - monsterPosition.x, 2) +
+                Math.pow(cakePosition.y - monsterPosition.y, 2)
+            );
+            if (distance < 80) {
+              handleFeedMonster();
+            }
+          }}
+          isBeingEaten={false}
+        />
       )}
 
       {/* Calendar Modal */}
       {!isAuthenticated && showCalendar && (
-        <div 
+        <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm animate-fade-in"
           onClick={(e) => {
             if (e.target === e.currentTarget) handleCloseCalendar();
           }}
         >
           <div className="bg-gradient-to-br from-white to-orange-50/30 rounded-3xl shadow-2xl w-[520px] p-10 animate-scale-in">
-            
             {/* Header */}
             <div className="flex justify-between items-start mb-8">
               <div className="flex-1">
@@ -162,7 +170,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
 
               <div className="flex items-start gap-4">
                 {selectedDate && <DateBadge date={selectedDate} />}
-                
+
                 <button
                   type="button"
                   onClick={handleCloseCalendar}
@@ -173,7 +181,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
               </div>
             </div>
 
-            {/* Error Alert */}
+            {/* Error */}
             {error && (
               <div className="mb-6 p-3 bg-red-50 border border-red-300 rounded-xl animate-fade-in">
                 <p className="text-sm text-red-700 text-center font-medium">
@@ -186,19 +194,23 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
             <div className="grid grid-cols-2 gap-3 mb-8">
               <select
                 value={viewDate.month()}
-                onChange={(e) => setViewDate(viewDate.month(Number(e.target.value)))}
+                onChange={(e) =>
+                  setViewDate(viewDate.month(Number(e.target.value)))
+                }
                 className="px-5 py-3 bg-gray-100 rounded-xl text-base font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-400 cursor-pointer transition-all"
               >
                 {Array.from({ length: 12 }, (_, i) => (
                   <option key={i} value={i}>
-                    {dayjs().month(i).format('MMMM')}
+                    {dayjs().month(i).format("MMMM")}
                   </option>
                 ))}
               </select>
 
               <select
                 value={viewDate.year()}
-                onChange={(e) => setViewDate(viewDate.year(Number(e.target.value)))}
+                onChange={(e) =>
+                  setViewDate(viewDate.year(Number(e.target.value)))
+                }
                 className="px-5 py-3 bg-gray-100 rounded-xl text-base font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-400 cursor-pointer transition-all"
               >
                 {[2023, 2024, 2025, 2026, 2027].map((year) => (
@@ -225,17 +237,12 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
               disabled={!selectedDate}
               className={`w-full py-4 rounded-2xl text-base font-semibold transition-all duration-300 ${
                 selectedDate
-                  ? 'bg-gradient-to-r from-orange-400 to-amber-500 text-white shadow-lg hover:shadow-xl hover:scale-[1.02]'
-                  : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                  ? "bg-gradient-to-r from-orange-400 to-amber-500 text-white shadow-lg hover:shadow-xl hover:scale-[1.02]"
+                  : "bg-gray-200 text-gray-400 cursor-not-allowed"
               }`}
             >
               Confirm
             </button>
-
-            {/* Hint */}
-            {/* <p className="mt-4 text-xs text-gray-500 text-center">
-              💡 <span className="font-medium">Gợi ý:</span> đó là ngày rất đặc biệt với hai đứa, khó mà quên được.
-            </p> */}
           </div>
         </div>
       )}
