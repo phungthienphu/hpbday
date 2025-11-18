@@ -10,25 +10,23 @@ const Home = () => {
           <h1 className="text-4xl md:text-5xl font-semibold text-gray-900 leading-tight mb-4">
             Happy Birthday
             <br />
-            To You!
+            To My Baby!
           </h1>
 
           <div className="mt-4 text-sm text-gray-700 space-y-1">
             <p className="font-medium">
-              Sun | May 18, 2025
+              Friday | Dec 05, 2025
             </p>
-            <p>08 - 12 AM</p>
           </div>
 
           <p className="mt-6 text-gray-700 text-sm leading-relaxed max-w-md">
-            Một banner sinh nhật đơn giản để gửi lời chúc, lời nhắn và những khoảnh
-            khắc đáng nhớ cho người đặc biệt.
+            Đây là một sản phẩm nhỏ anh làm tặng cho em nhân ngày sinh nhật em, nó cũm hong có gì cả, chỉ là anh muốn làm gì đó khác thường xíu, em nghịch nghịch có gì khum hiểu gõ anh nhaa!
           </p>
         </div>
 
-        <button className="mt-8 inline-flex items-center justify-center self-center md:self-start px-8 py-3 bg-gray-900 text-white text-sm tracking-[0.2em] uppercase rounded-full hover:bg-gray-800 transition-all duration-300 animate-slide-up">
+        {/* <button className="mt-8 inline-flex items-center justify-center self-center md:self-start px-8 py-3 bg-gray-900 text-white text-sm tracking-[0.2em] uppercase rounded-full hover:bg-gray-800 transition-all duration-300 animate-slide-up">
           Join now!
-        </button>
+        </button> */}
       </div>
 
       {/* Right: image */}

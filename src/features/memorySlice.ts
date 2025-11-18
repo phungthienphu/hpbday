@@ -12,6 +12,7 @@ interface MemoryAlbum {
 interface CodeMessage {
   code: string;
   message: string;
+  messagesub?: string;
   emoji: string;
 }
 
@@ -89,33 +90,35 @@ const initialState: MemoryState = {
   ],
   codeMessages: [
     {
-      code: 'LOVE143',
-      message: 'Anh yêu em! 143 = I Love You (số chữ cái trong mỗi từ) 💖',
+      code: 'THUTRANG1509',
+      message: 'Chúc bạn may mắn lần sau!',
+      messagesub: 'Anh trêu đấy! Em vừa nhận được ngân phiếu 200k, việc của em bây giờ là hãy hun anh 2 cái vào 2 bên má, 3 cái vào môi và ôm anh thật chặt để nhận thưởng nhớ.',
       emoji: '💖',
     },
     {
       code: 'FOREVER',
-      message: 'Mãi mãi bên nhau, không bao giờ rời xa em 💍',
+      message: 'Tại sao?? Tại sao em lại cào đến cái thẻ này thay vì gọi cho anh và kể vì sao em buồnn, có phải tại anh không. Anh xin lũi, anh yêu em nhiều lắm, nhưng anh cũng đần nên không tránh được làm em buồn. Anh sẽ tự phạt mình lếu như em khong kể cho anh đấy ><',
       emoji: '💍',
     },
     {
       code: 'SUNSHINE',
-      message: 'Em là ánh nắng trong cuộc đời anh ☀️',
+      message: 'Anh nhớ em nhiều lắm, em có nhớ anh không? Nhớ anh thì nhắn anh 1 cái điii',
       emoji: '☀️',
     },
     {
       code: 'ANGEL',
-      message: 'Thiên thần của anh, người duy nhất trong trái tim anh 👼',
-      emoji: '👼',
+      message: 'Cho dù cuộc sống có khó khăn, dù em thấy con đường phía trước còn nhiều trắc trở và nó khiến em lo lắng, buồn rầu. Em đừng quên phía sau lưng em vẫn luôn có anh. Anh sẽ luôn ở đây để làm chỗ dựa cho em, dù có thể anh không giúp em giải quyết được. Nhưng anh có thể ôm em và lắng nghe em để cùng em vượt qua mọi chuyện. Em đừng coi thường sự lợi hại của việc cùng đồng hành nhớ!',
+      emoji: '🌈',
     },
     {
       code: 'DREAM',
-      message: 'Em là giấc mơ đẹp nhất anh từng có 🌈',
+      message: 'Đứa nào bắt nạt em, em nói anh nghe. Anh cũng hơi bị ghê gớm đấy khum kém gì bé đâu. Đụng vào anh thì đượt, đụng vào ngiu anh thì chếc với anhh. Êu mà nhỡ đó là anh thì sao nhở :v',
+      messagesub:'Chắc anh phạt mình tu 1 tháng, mua cho em nhiều trà sữa, nhiều mì cayy... em thấy có được khômmm',
       emoji: '🌈',
     },
     {
       code: 'STAR',
-      message: 'Em là ngôi sao sáng nhất trên bầu trời đêm của anh ⭐',
+      message: 'Em có biết anh thần tượng em kinh khủng không? Với anh anh chưa bao giờ nghĩ mình có thể có dược một cô người yêu đáng iu, chăm chỉ, xinh xắn như em. Anh trân trọng em lắm lắm. Vì thế, em đừng có tự giữ nỗi buồn 1 mình, hãy để cho fan hâm mộ của em là anh được đón nỗi buồn đó cùng em. Anh yêu em, và anh mong em sẽ luôn luôn vui vẻ, hãy thật yêu đời em nhé',
       emoji: '⭐',
     },
     {

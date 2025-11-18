@@ -127,6 +127,9 @@ const CodeInput = () => {
               <p className="text-lg text-gray-700 leading-relaxed">
                 {unlockedMessage.message}
               </p>
+              <span className="text-sm text-gray-700 leading-relaxed">
+                {unlockedMessage?.messagesub||''}
+              </span>
               <button
                 className="mt-4 w-full bg-gray-900 text-white py-3 rounded-xl font-semibold tracking-[0.2em]"
                 onClick={() => {
