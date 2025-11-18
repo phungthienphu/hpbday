@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-interface Memory {
-  id: number;
-  image: string;
+interface MemoryAlbum {
+  id: string;
+  title: string;
   description: string;
   date: string;
+  folder: string;
 }
 
 interface CodeMessage {
@@ -15,7 +16,7 @@ interface CodeMessage {
 }
 
 interface MemoryState {
-  memories: Memory[];
+  memories: MemoryAlbum[];
   codeMessages: CodeMessage[];
   unlockedMessage: CodeMessage | null;
 }
@@ -23,40 +24,67 @@ interface MemoryState {
 const initialState: MemoryState = {
   memories: [
     {
-      id: 1,
-      image: 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=500',
-      description: 'Ngày đầu tiên gặp nhau, em nhớ mãi khoảnh khắc ấy 💕',
-      date: '14/02/2023',
+      id: 'first',
+      title: 'Những buổi gặp gỡ đầu tiênn',
+      description: 'Khoảnh khắc mở đầu hành trình hai đứa... trông cái mặt anh gượng gạo kinh, tại em xinh quá nên anh run đấy!',
+      date: '09/01/2025',
+      folder: 'first',
     },
     {
-      id: 2,
-      image: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=500',
-      description: 'Chuyến đi biển đầu tiên cùng nhau, sóng và gió không thể chia cắt đôi ta 🌊',
-      date: '05/05/2023',
+      id: 'firstbirthdayhim',
+      title: 'Sinh nhật đầu tiên của anh cùng em',
+      description: 'Lần đầu có người tự tay chuẩn bị sinh nhật siêu sịn cho anh.',
+      date: '13/9/2025',
+      folder: 'firstbirthdayhim',
     },
     {
-      id: 3,
-      image: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500',
-      description: 'Sinh nhật anh, em đã chuẩn bị rất kỹ lưỡng 🎂',
-      date: '18/08/2023',
+      id: 'firstbingxu',
+      title: 'Lần đầu anh ăn kem',
+      description: 'Em dẫn anh đi ăn Bingxu lần đầu...',
+      date: '17/08/2025',
+      folder: 'firstbingxu',
     },
     {
-      id: 4,
-      image: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=500',
-      description: 'Buổi tối romantic nhất trong đời, dưới ánh trăng và ngôi sao 🌙✨',
-      date: '12/10/2023',
+      id: 'firsttour',
+      title: 'Chuyến du lịch đầu tiênn',
+      description: 'Lần đầu đi xa cùng nhau, đầy tiếng cười và cũng đầy lần đầu khác hihi..',
+      date: '20/06/2025',
+      folder: 'firsttour',
     },
     {
-      id: 5,
-      image: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=500',
-      description: 'Chuyến picnic cuối tuần, chỉ có đôi ta và thiên nhiên 🌳',
-      date: '03/12/2023',
+      id: 'firsthvnn',
+      title: 'Em ra trường',
+      description: 'Sự kiện trọng đại của em',
+      date: '25/05/2025',
+      folder: 'firsthvnn',
     },
     {
-      id: 6,
-      image: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?w=500',
-      description: 'Giáng sinh cùng nhau, ấm áp bên anh 🎄❤️',
-      date: '25/12/2023',
+      id: 'firstchild',
+      title: 'Những đứa trẻ tụi mình',
+      description: 'Lần đầu em bảo anh như trẻ conn -_- sau đấy thì như cơm bữa!',
+      date: '12/04/2025',
+      folder: 'firstchild',
+    },
+    {
+      id: 'firsttiktok',
+      title: 'TikTok vibes',
+      description: 'Videos đầu tiên bắt trend cùng nhau.',
+      date: '25/03/2025',
+      folder: 'firsttiktok',
+    },
+    {
+      id: 'second',
+      title: 'Cafe học baìi',
+      description: 'Lần đầu đi cafe học bài cùng nhau, nhưng khum học lắm -.-',
+      date: '25/02/2025',
+      folder: 'second',
+    },
+    {
+      id: 'musicbox',
+      title: 'Lần đầu đi MusicBox',
+      description: 'Lần đầu đi MusicBox cùng nhau, tuy có chút vội vã nhưng em xinh.',
+      date: '17/05/2025',
+      folder: 'musicbox',
     },
   ],
   codeMessages: [

@@ -33,11 +33,11 @@ const Home = () => {
 
       {/* Right: image */}
       <div className="md:w-1/2 animate-slide-up">
-        <div className="relative h-64 sm:h-80 md:h-full w-full overflow-hidden rounded-xl shadow-xl">
+        <div className="relative max-h-[400px] sm:h-80 md:h-full w-full overflow-hidden rounded-xl shadow-xl">
           <img
-            src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=900&q=80"
+            src="/src/assets/img/image.png"
             alt="Birthday celebration"
-            className="w-full h-full object-cover transform transition-transform duration-700 hover:scale-105"
+            className="w-full h-full object-cover transform-origin-center transition-transform duration-700 hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
         </div>
