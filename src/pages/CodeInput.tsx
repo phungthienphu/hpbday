@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store/store';
+import type { RootState } from '../store/store';
 import { unlockMessage, clearUnlockedMessage } from '../features/memorySlice';
 import { Navigate } from 'react-router-dom';
 
@@ -19,7 +19,7 @@ const CodeInput = () => {
   }, [dispatch]);
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
 
   const handleSubmit = (e: React.FormEvent) => {
