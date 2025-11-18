@@ -1,11 +1,14 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import Eye from './Eye';
-import Mouth from './Mouth';
+import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
+import Eye from "./Eye";
+import Mouth from "./Mouth";
+import Eyebrow from "./Eyebrow";
+import SpeechBubble from "./SpeechBubble";
 
 interface FaceAnimalProps {
   distanceToCake: number;
   isEating: boolean;
+  isDraggingCake: boolean;
   onPositionChange?: (x: number, y: number) => void;
 }
 
@@ -27,10 +30,10 @@ const calculatePupilPosition = (
 
   const deltaX = mouseX - absoluteEyeX;
   const deltaY = mouseY - absoluteEyeY;
-  
+
   const angle = Math.atan2(deltaY, deltaX);
   const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-  
+
   const responsiveness = distance / 30;
   const limitedDistance = Math.min(responsiveness, maxMove);
 
@@ -40,15 +43,22 @@ const calculatePupilPosition = (
   };
 };
 
-const FaceAnimal = ({ distanceToCake, isEating, onPositionChange }: FaceAnimalProps) => {
+const FaceAnimal = ({
+  distanceToCake,
+  isEating,
+  isDraggingCake,
+  onPositionChange,
+}: FaceAnimalProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [pupilPositions, setPupilPositions] = useState({
     left: { x: 0, y: 0 },
     right: { x: 0, y: 0 },
   });
+  const [showSpeech, setShowSpeech] = useState(false);
   const buttonRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
+  const speechTimeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -59,17 +69,31 @@ const FaceAnimal = ({ distanceToCake, isEating, onPositionChange }: FaceAnimalPr
       rafRef.current = requestAnimationFrame(() => {
         // Calculate pupil positions
         if (buttonRef.current) {
-          const leftPupil = calculatePupilPosition(buttonRef.current, e.clientX, e.clientY, -30, -10, 10);
-          const rightPupil = calculatePupilPosition(buttonRef.current, e.clientX, e.clientY, 30, -10, 8);
+          const leftPupil = calculatePupilPosition(
+            buttonRef.current,
+            e.clientX,
+            e.clientY,
+            -30,
+            -10,
+            10
+          );
+          const rightPupil = calculatePupilPosition(
+            buttonRef.current,
+            e.clientX,
+            e.clientY,
+            30,
+            -10,
+            8
+          );
           setPupilPositions({ left: leftPupil, right: rightPupil });
         }
       });
     };
 
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener("mousemove", handleMouseMove);
       if (rafRef.current) {
         cancelAnimationFrame(rafRef.current);
       }
@@ -94,10 +118,48 @@ const FaceAnimal = ({ distanceToCake, isEating, onPositionChange }: FaceAnimalPr
     return () => clearInterval(interval);
   }, [onPositionChange]);
 
+  // Auto show speech bubble every 3s (show 2s, hide 1s)
+  useEffect(() => {
+    const showSpeechCycle = () => {
+      setShowSpeech(true);
+
+      // Ẩn sau 2s
+      speechTimeoutRef.current = setTimeout(() => {
+        setShowSpeech(false);
+      }, 1000);
+    };
+
+    // Hiện lần đầu sau 1s
+    const initialTimeout = setTimeout(showSpeechCycle, 1000);
+
+    // Lặp lại mỗi 3s
+    const interval = setInterval(showSpeechCycle, 3000);
+
+    return () => {
+      clearTimeout(initialTimeout);
+      clearInterval(interval);
+      if (speechTimeoutRef.current) {
+        clearTimeout(speechTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleClick = () => {
+    // Hiện speech bubble khi click
+    setShowSpeech(true);
+
+    if (speechTimeoutRef.current) {
+      clearTimeout(speechTimeoutRef.current);
+    }
+
+    speechTimeoutRef.current = setTimeout(() => {
+      setShowSpeech(false);
+    }, 2000);
+  };
+
   // Tính mức độ há mồm dựa trên khoảng cách bánh
-  const mouthOpenLevel = distanceToCake < 300 
-    ? Math.min(1, (300 - distanceToCake) / 220) 
-    : 0;
+  const mouthOpenLevel =
+    distanceToCake < 300 ? Math.min(1, (300 - distanceToCake) / 220) : 0;
 
   return (
     <motion.div
@@ -109,47 +171,60 @@ const FaceAnimal = ({ distanceToCake, isEating, onPositionChange }: FaceAnimalPr
       onDragEnd={() => setIsDragging(false)}
       className="fixed z-50"
       initial={{
-        left: '50%',
-        top: '30%',
-        x: '-50%',
-        y: '-50%',
+        left: "50%",
+        top: "30%",
+        x: "-50%",
+        y: "-50%",
       }}
       whileHover={{ scale: 1.1 }}
       whileDrag={{ scale: 1.05 }}
     >
       <div
+        onClick={handleClick}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         className={`relative transition-all duration-300 ${
-          isDragging ? 'cursor-grabbing' : 'cursor-grab'
-        } ${isEating ? 'scale-125' : ''}`}
-        style={{ 
-          width: '150px', 
-          height: '150px',
-          userSelect: 'none',
-          WebkitUserSelect: 'none',
+          isDragging ? "cursor-grabbing" : "cursor-pointer"
+        } ${isEating ? "scale-125" : ""}`}
+        style={{
+          width: "150px",
+          height: "150px",
+          userSelect: "none",
+          WebkitUserSelect: "none",
         }}
       >
         {/* Face Background */}
-        <div className={`absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full shadow-2xl transition-all duration-300 ${
-          isEating ? 'animate-pulse' : ''
-        }`}></div>
+        <div
+          className={`absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full shadow-2xl transition-all duration-300 ${
+            isEating ? "animate-pulse" : ""
+          }`}
+        ></div>
+
+        {/* Eyebrows - lườm khi bình thường, nâng lên khi excited */}
+        <Eyebrow
+          position={{ left: "8px", top: "28px" }}
+          isExcited={isDraggingCake || mouthOpenLevel > 0}
+        />
+        <Eyebrow
+          position={{ right: "8px", top: "33px" }}
+          isExcited={isDraggingCake || mouthOpenLevel > 0}
+        />
 
         {/* Eyes */}
         <Eye
           size="big"
-          position={{ left: '10px', top: '35px' }}
+          position={{ left: "10px", top: "35px" }}
           pupilOffset={pupilPositions.left}
         />
         <Eye
           size="small"
-          position={{ right: '10px', top: '40px' }}
+          position={{ right: "10px", top: "40px" }}
           pupilOffset={pupilPositions.right}
         />
 
         {/* Mouth - há rộng dần khi bánh đến gần */}
-        <Mouth 
-          isOpen={isHovered || mouthOpenLevel > 0.5} 
+        <Mouth
+          isOpen={isHovered || mouthOpenLevel > 0.5}
           openLevel={Math.max(mouthOpenLevel, isHovered ? 0.5 : 0)}
         />
 
@@ -161,8 +236,8 @@ const FaceAnimal = ({ distanceToCake, isEating, onPositionChange }: FaceAnimalPr
                 key={i}
                 className="absolute w-2 h-2 bg-orange-400 rounded-full animate-ping"
                 style={{
-                  left: `${50 + Math.cos(i * Math.PI / 4) * 40}%`,
-                  top: `${50 + Math.sin(i * Math.PI / 4) * 40}%`,
+                  left: `${50 + Math.cos((i * Math.PI) / 4) * 40}%`,
+                  top: `${50 + Math.sin((i * Math.PI) / 4) * 40}%`,
                   animationDelay: `${i * 0.05}s`,
                 }}
               />
@@ -170,15 +245,14 @@ const FaceAnimal = ({ distanceToCake, isEating, onPositionChange }: FaceAnimalPr
           </div>
         )}
 
-        {/* Hint */}
-        {!isEating && mouthOpenLevel === 0 && !isDragging && (
-          <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 bg-black/70 text-white px-4 py-2 rounded-lg text-xs whitespace-nowrap animate-fade-in pointer-events-none">
-            Đóiiiiiii 🍰
-          </div>
-        )}
+        {/* Speech Bubble - hiện tự động hoặc khi click */}
+        <SpeechBubble
+          message={mouthOpenLevel > 0.5 ? "🤤" : "Đóiiiii 😢"}
+          isVisible={showSpeech && !isDragging}
+        />
 
-        {/* Excited hint khi bánh gần */}
-        {mouthOpenLevel > 0.3 && !isEating && (
+        {/* Excited emoji khi bánh rất gần - chỉ khi không có speech */}
+        {mouthOpenLevel > 0.5 && !isEating && !showSpeech && (
           <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 text-3xl animate-bounce pointer-events-none">
             😋
           </div>
