@@ -56,7 +56,7 @@ const CodeInput = () => {
               <img
                 src="/him-face.png"
                 alt="him_face_sticker"
-                className="w-20 h-[80px] md:w-28 md:h-[150px] lg:w-28 lg:h-[150px] hover:scale-110 cursor-pointer transition-all duration-300 bg-transparent"
+                className="w-20 h-[80px] md:w-40 md:h-[150px] lg:w-40 lg:h-[150px] hover:scale-110 cursor-pointer transition-all duration-300 bg-transparent"
               />
               <div className="text-left border-b border-gray-300 lg:pb-4 md:pb-4 pb-2 w-full">
                 <h2 className="text-lg md:text-xl lg:text-xl font-semibold">Tôi bảo này nhé!</h2>
