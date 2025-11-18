@@ -1,10 +1,10 @@
 const About = () => {
   return (
-    <div className="container mx-auto px-6 py-12">
+    <div className="container mx-auto  lg:px-4 md:px-4 px:1 lg:py-12 md:py-12 py-6">
       <div className="max-w-5xl mx-auto">
         {/* Header banner style */}
-        <div className="card animate-fade-in bg-gradient-to-r from-pastel-pink/80 via-pastel-purple/70 to-pastel-blue/80 shadow-2xl mb-8 md:flex md:items-center md:justify-between">
-          <div>
+        <div className="card animate-fade-in bg-gradient-to-r from-pastel-pink/80 via-pastel-purple/70 to-pastel-blue/80 shadow-2xl mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div className="text-center md:text-left">
             <p className="text-xs tracking-[0.3em] uppercase text-gray-700 mb-2">
               About
             </p>
@@ -17,7 +17,7 @@ const About = () => {
             </p>
           </div>
 
-          <div className="mt-6 md:mt-0 flex items-center gap-4">
+          <div className="mt-2 md:mt-0 flex items-center gap-4 justify-center md:justify-end">
             <div className="text-5xl">🎂</div>
             <div className="text-sm text-right">
               <p className="font-semibold text-gray-800">Banner Template</p>
@@ -27,7 +27,7 @@ const About = () => {
         </div>
 
         {/* Sections */}
-        <div className="grid md:grid-cols-3 gap-6 animate-slide-up">
+        <div className="grid gap-6 animate-slide-up sm:grid-cols-2 lg:grid-cols-3">
           <div className="card">
             <h3 className="text-sm font-semibold tracking-[0.2em] uppercase text-gray-500 mb-3">
               Mục đích

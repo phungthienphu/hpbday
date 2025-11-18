@@ -52,8 +52,8 @@ const DraggableNavItem = ({
   useEffect(() => {
     if (shouldReset && itemRef.current) {
       // Disable drag temporarily
-      setIsDragging(false);
-      setHasMoved(false);
+      setTimeout(() => setIsDragging(false), 100);
+      setTimeout(() => setHasMoved(false), 100);
       
       // Animate về vị trí ban đầu (0, 0) với spring animation
       x.set(0);
@@ -129,8 +129,8 @@ const DraggableNavItem = ({
         onDragEnd(hasMoved);
         setTimeout(() => setHasMoved(false), 300);
       }}
-      whileDrag={{ scale: 1.15, zIndex: 50 }}
-      className={`relative inline-block hover:font-bold  ${isDragging ? 'cursor-grabbing' : 'cursor-grab '}`}
+      whileDrag={{ scale: 1.5, zIndex: 1000 }}
+      className={`relative inline-block hover:font-bold z-[1000]  ${isDragging ? 'cursor-grabbing' : 'cursor-grab '}`}
     >
       {/* Cake icon khi drag */}
       {isDragging && (

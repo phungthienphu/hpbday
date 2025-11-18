@@ -10,7 +10,7 @@ const CodeInput = () => {
   const [shake, setShake] = useState(false);
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
-  const { unlockedMessage, codeMessages } = useSelector((state: RootState) => state.memory);
+  const { unlockedMessage } = useSelector((state: RootState) => state.memory);
 
   useEffect(() => {
     return () => {
@@ -29,7 +29,7 @@ const CodeInput = () => {
       dispatch(unlockMessage(code));
       setCode('');
       setError(false);
-    } catch (err) {
+    } catch {
       setError(true);
       setShake(true);
       setTimeout(() => setShake(false), 500);
@@ -38,123 +38,111 @@ const CodeInput = () => {
   };
 
   return (
-    <div className="container mx-auto px-6 py-12">
+    <div className="container mx-auto lg:px-6 md:px-6 px-1 lg:py-12 md:py-12 py-6 relative">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="card text-center mb-8 animate-fade-in">
-          <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pastel-pink to-pastel-purple mb-4">
+        <div className="card text-center lg:mb-8 md:mb-8 mb-4 animate-fade-in">
+          <h1 className="lg:text-4xl lg:font-bold md:text-4xl md:font-bold text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-pastel-pink to-pastel-purple mb-4">
             💌 Nhập mã bí mật 💌
           </h1>
           <p className="text-lg text-gray-700">
-            Nhập mã đặc biệt để nhận thông điệp yêu thương từ anh nhé! 💝
+            Nhập mã đặc biệt để nhận thông điệp yêu thương từ anh nhé! 
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Input Section */}
-          <div>
-            <div className={`card ${shake ? 'animate-shake' : ''}`}>
-              <h2 className="text-2xl font-bold text-pastel-purple mb-4">
-                🔐 Nhập mã
-              </h2>
-
-              {error && (
-                <div className="mb-4 p-4 bg-red-100 border-2 border-red-400 rounded-xl animate-fade-in">
-                  <p className="text-red-700 text-center font-semibold">
-                    ❌ Mã không đúng! Thử lại nhé!
-                  </p>
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label className="block text-gray-700 font-semibold mb-2">
-                    Mã bí mật
-                  </label>
-                  <input
-                    type="text"
-                    value={code}
-                    onChange={(e) => setCode(e.target.value.toUpperCase())}
-                    className="input-field text-center text-2xl font-bold tracking-wider"
-                    placeholder="NHẬP MÃ..."
-                    required
-                  />
-                </div>
-
-                <button type="submit" className="w-full btn-primary">
-                  Mở thông điệp 💕
-                </button>
-              </form>
-
-              <div className="mt-6 p-4 bg-pastel-pink/10 rounded-xl">
-                <p className="text-sm text-gray-600 text-center">
-                  💡 Mã gồm các chữ cái viết hoa, không có khoảng trắng
+        <div className="grid gap-8">
+          <div className={`card ${shake ? 'animate-shake' : ''}`}>
+            <div className="flex items-center gap-4 mb-5 p-2">
+              <img
+                src="/him-face.png"
+                alt="him_face_sticker"
+                className="w-20 h-[80px] md:w-28 md:h-[150px] lg:w-28 lg:h-[150px] hover:scale-110 cursor-pointer transition-all duration-300 bg-transparent"
+              />
+              <div className="text-left border-b border-gray-300 lg:pb-4 md:pb-4 pb-2 w-full">
+                <h2 className="text-lg md:text-xl lg:text-xl font-semibold">Tôi bảo này nhé!</h2>
+                <p className="text-xs md:text-sm lg:text-sm text-gray-700">
+                  {error ? 'Ơ mã này nghe lạ lắm, thử lại xem?' : 'Nhập mã đặc biệt để nhận thông tin nha.'}
+                </p>
+                <p
+                  className={`mt-2 text-xs md:text-sm lg:text-sm tracking-[0.2em]  ${
+                    error ? 'text-rose-500' : 'text-gray-400'
+                  }`}
+                >
+                  {error ? '❌ invalid code' : '💡 Chữ in hoa, không khoảng trắng'}
                 </p>
               </div>
             </div>
 
-            {/* Unlocked Message Display */}
-            {unlockedMessage && (
-              <div className="card mt-6 bg-gradient-to-r from-pastel-pink to-pastel-purple text-white animate-fade-in">
-                <div className="text-center">
-                  <div className="text-6xl mb-4 animate-bounce">
-                    {unlockedMessage.emoji}
-                  </div>
-                  <p className="text-2xl font-bold mb-3">
-                    Thông điệp cho em:
-                  </p>
-                  <p className="text-xl leading-relaxed">
-                    {unlockedMessage.message}
-                  </p>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block font-semibold mb-2 tracking-[0.3em] uppercase text-xs text-gray-500">
+                  Enter Code
+                </label>
+                <div className="flex w-full lg:flex-row md:flex-row flex-col gap-1 lg:gap-0 md:gap-0 border border-gray-300 bg-white shadow-sm">
+                  <input
+                    type="text"
+                    value={code}
+                    onChange={(e) => setCode(e.target.value.toUpperCase())}
+                    className="flex-1 px-5 py-3 text-base tracking-[0.35em] uppercase text-gray-600 focus:outline-none"
+                    placeholder="ENTER CODE"
+                    required
+                  />
+                  <button
+                    type="submit"
+                    className="px-8 md:px-10 py-3 bg-[#FFB6C1] text-white text-sm tracking-[0.35em] uppercase font-semibold border-l border-gray-300  transition"
+                  >
+                    Apply
+                  </button>
                 </div>
               </div>
-            )}
-          </div>
-
-          {/* Available Codes Hints */}
-          <div className="card animate-slide-up">
-            <h2 className="text-2xl font-bold text-pastel-purple mb-4">
-              🎯 Gợi ý mã
-            </h2>
-            <p className="text-gray-600 mb-4">
-              Có tổng cộng <span className="font-bold text-pastel-purple">{codeMessages.length} mã</span> đang chờ em khám phá!
-            </p>
-
-            <div className="space-y-3 max-h-96 overflow-y-auto">
-              {codeMessages.map((msg, index) => (
-                <div
-                  key={index}
-                  className="bg-gradient-to-r from-pastel-pink/20 to-pastel-purple/20 p-4 rounded-xl border-2 border-pastel-purple/30 hover:scale-105 transition-transform duration-300"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <span className="text-3xl">{msg.emoji}</span>
-                      <div>
-                        <p className="font-bold text-pastel-purple">
-                          Mã #{index + 1}
-                        </p>
-                        <p className="text-sm text-gray-500">
-                          {msg.code.length} ký tự
-                        </p>
-                      </div>
-                    </div>
-                    <div className="text-2xl">🔒</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-6 p-4 bg-pastel-blue/20 rounded-xl">
-              <p className="text-sm text-gray-600 text-center">
-                ✨ Mỗi mã mở ra một thông điệp đặc biệt!
-              </p>
-            </div>
+            </form>
           </div>
         </div>
       </div>
+
+      {/* Result Modal */}
+      {/* <ModalCustom
+        title="Thông điệp cho em"
+        description={unlockedMessage?.message||''}
+        textLeft="Đã hiểu rồi"
+        textRight="Đóng"
+        show={unlockedMessage!=null}
+        onClose={() => dispatch(clearUnlockedMessage())}
+        onSubmit={() => dispatch(clearUnlockedMessage())}
+      /> */}
+      {unlockedMessage && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in">
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 relative animate-scale-in">
+            <button
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-900"
+              onClick={() => {
+                dispatch(clearUnlockedMessage());
+              }}
+            >
+              ✕
+            </button>
+            <div className="text-center space-y-4">
+              <div className="text-6xl animate-bounce">{unlockedMessage.emoji}</div>
+              <h3 className="text-2xl font-semibold text-gray-900">Thông điệp cho em</h3>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                {unlockedMessage.message}
+              </p>
+              <button
+                className="mt-4 w-full bg-gray-900 text-white py-3 rounded-xl font-semibold tracking-[0.2em]"
+                onClick={() => {
+                  dispatch(clearUnlockedMessage());
+                }}
+              >
+                Đã hiểu rồi 💗
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default CodeInput;
+
 

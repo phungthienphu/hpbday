@@ -4,6 +4,7 @@
 
 @layer base {
   body {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
     @apply bg-gradient-to-br from-pastel-pink via-pastel-purple to-pastel-blue min-h-screen;
   }
 }

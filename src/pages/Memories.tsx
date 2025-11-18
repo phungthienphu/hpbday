@@ -13,11 +13,11 @@ const Memories = () => {
   }
 
   return (
-    <div className="container mx-auto px-6 py-12">
+    <div className="container mx-auto  lg:px-4 md:px-4 px:1 lg:py-12 md:py-12 py-6">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="card text-center mb-8 animate-fade-in">
-          <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pastel-pink to-pastel-purple mb-4">
+        <div className="card text-center lg:mb-8 md:mb-8 mb-4 animate-fade-in">
+          <h1 className="lg:text-4xl lg:font-bold md:text-4xl md:font-bold text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-pastel-pink to-pastel-purple mb-4">
             📸 Kỷ niệm của đôi ta 📸
           </h1>
           <p className="text-lg text-gray-700">
@@ -26,7 +26,7 @@ const Memories = () => {
         </div>
 
         {/* Memories Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {memories.map((memory, index) => (
             <div
               key={memory.id}
@@ -35,11 +35,11 @@ const Memories = () => {
               onClick={() => setSelectedMemory(selectedMemory === memory.id ? null : memory.id)}
             >
               {/* Image */}
-              <div className="relative overflow-hidden rounded-xl mb-4 group">
+              <div className="relative overflow-hidden rounded-xl mb-4 group h-56 sm:h-64">
                 <img
                   src={memory.image}
                   alt={memory.description}
-                  className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                   <p className="text-white p-4 font-semibold">
@@ -87,7 +87,7 @@ const Memories = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid md:grid-cols-3 gap-6 mt-8">
+        <div className="grid gap-6 mt-8 sm:grid-cols-2 lg:grid-cols-3">
           <div className="card text-center card-hover">
             <div className="text-5xl mb-3">📷</div>
             <p className="text-3xl font-bold text-pastel-purple mb-1">

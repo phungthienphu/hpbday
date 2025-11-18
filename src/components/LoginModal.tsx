@@ -151,24 +151,24 @@ const LoginModal = ({
       {/* Calendar Modal */}
       {!isAuthenticated && showCalendar && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm animate-fade-in"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm px-4 animate-fade-in"
           onClick={(e) => {
             if (e.target === e.currentTarget) handleCloseCalendar();
           }}
         >
-          <div className="bg-gradient-to-br from-white to-orange-50/30 rounded-3xl shadow-2xl w-[520px] p-10 animate-scale-in">
+          <div className="bg-gradient-to-br from-white to-orange-50/30 rounded-3xl shadow-2xl w-full max-w-lg p-6 sm:p-10 animate-scale-in">
             {/* Header */}
-            <div className="flex justify-between items-start mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-8">
               <div className="flex-1">
                 <p className="text-xs tracking-[0.3em] uppercase text-gray-500 mb-1">
                   ACCESS
                 </p>
-                <h2 className="text-4xl font-bold text-gray-900">
+                <h2 className="lg:text-4xl lg:font-bold md:text-4xl md:font-bold text-2xl font-semibold text-gray-900">
                   Select Date
                 </h2>
               </div>
 
-              <div className="flex items-start gap-4">
+              <div className="flex items-start gap-4 justify-between sm:justify-end">
                 {selectedDate && <DateBadge date={selectedDate} />}
 
                 <button
