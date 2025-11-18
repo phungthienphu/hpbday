@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
+import confetti from 'canvas-confetti';
 import { login } from '../features/authSlice';
 import type { RootState } from '../store/store';
-import { FaceAnimal } from './ButtonAnimation';
+import { FaceAnimal, Cake } from './ButtonAnimation';
 import { CalendarGrid, DateBadge } from './Calendar';
 
 interface LoginModalProps {
@@ -18,11 +19,58 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
   const [viewDate, setViewDate] = useState(dayjs());
   const [error, setError] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
+  
+  // Cake feeding logic
+  const [cakePosition, setCakePosition] = useState({ x: 0, y: 0 });
+  const [monsterPosition, setMonsterPosition] = useState({ x: 0, y: 0 });
+  const [distanceToCake, setDistanceToCake] = useState(1000);
+  const [isEating, setIsEating] = useState(false);
+  const [isDraggingCake, setIsDraggingCake] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   if (!isOpen) return null;
+
+  const handleCakePositionChange = (x: number, y: number) => {
+    setCakePosition({ x, y });
+    const distance = Math.sqrt(
+      Math.pow(x - monsterPosition.x, 2) + Math.pow(y - monsterPosition.y, 2)
+    );
+    setDistanceToCake(distance);
+  };
+
+  const handleMonsterPositionChange = (x: number, y: number) => {
+    setMonsterPosition({ x, y });
+    
+    // Recalculate distance
+    if (cakePosition.x !== 0 || cakePosition.y !== 0) {
+      const distance = Math.sqrt(
+        Math.pow(cakePosition.x - x, 2) + Math.pow(cakePosition.y - y, 2)
+      );
+      setDistanceToCake(distance);
+    }
+  };
+
+  const handleFeedMonster = () => {
+    if (isEating) return;
+    
+    setIsEating(true);
+
+    // Confetti khi ăn
+    confetti({
+      particleCount: 30,
+      spread: 60,
+      origin: { x: 0.5, y: 0.35 },
+      colors: ['#FFA500', '#FFD700', '#FF6347'],
+    });
+
+    // Sau 0.5s mở calendar
+    setTimeout(() => {
+      setIsEating(false);
+      setShowCalendar(true);
+    }, 500);
+  };
 
   const handleDateSelect = (day: number) => {
     const date = viewDate.date(day);
@@ -40,16 +88,27 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
           year: selectedDate.year(),
         }),
       );
-      onClose();
-      setShowCalendar(false);
-      navigate('/menu');
+      
+      // Success confetti
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#FFA500', '#FFD700', '#FF6347'],
+      });
+
+      setTimeout(() => {
+        onClose();
+        setShowCalendar(false);
+        navigate('/menu');
+      }, 300);
     } catch {
       setError(true);
       setTimeout(() => setError(false), 3000);
     }
   };
 
-  const handleClose = () => {
+  const handleCloseCalendar = () => {
     setShowCalendar(false);
     setSelectedDate(null);
     setError(false);
@@ -57,14 +116,37 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
 
   return (
     <>
-      {/* Floating Face Button */}
+      {/* Face Monster & Cake - Only show when not authenticated and no calendar */}
       {!isAuthenticated && !showCalendar && (
-        <FaceAnimal onClick={() => setShowCalendar(true)} />
+        <>
+          <FaceAnimal 
+            distanceToCake={distanceToCake} 
+            isEating={isEating}
+            onPositionChange={handleMonsterPositionChange}
+          />
+          <Cake
+            onPositionChange={handleCakePositionChange}
+            onDragStart={() => setIsDraggingCake(true)}
+            onDragEnd={() => {
+              setIsDraggingCake(false);
+              // Kiểm tra khoảng cách khi thả chuột
+              if (distanceToCake < 80 && !isEating) {
+                handleFeedMonster();
+              }
+            }}
+            isBeingEaten={isEating}
+          />
+        </>
       )}
 
       {/* Calendar Modal */}
       {!isAuthenticated && showCalendar && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm animate-fade-in">
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm animate-fade-in"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) handleCloseCalendar();
+          }}
+        >
           <div className="bg-gradient-to-br from-white to-orange-50/30 rounded-3xl shadow-2xl w-[520px] p-10 animate-scale-in">
             
             {/* Header */}
@@ -83,7 +165,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                 
                 <button
                   type="button"
-                  onClick={handleClose}
+                  onClick={handleCloseCalendar}
                   className="text-gray-400 hover:text-gray-700 text-2xl w-8 h-8 flex items-center justify-center transition-colors"
                 >
                   ×
@@ -151,9 +233,9 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
             </button>
 
             {/* Hint */}
-            <p className="mt-4 text-xs text-gray-500 text-center">
+            {/* <p className="mt-4 text-xs text-gray-500 text-center">
               💡 <span className="font-medium">Gợi ý:</span> đó là ngày rất đặc biệt với hai đứa, khó mà quên được.
-            </p>
+            </p> */}
           </div>
         </div>
       )}
