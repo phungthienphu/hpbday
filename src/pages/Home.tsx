@@ -33,7 +33,7 @@ const Home = () => {
       <div className="md:w-1/2 animate-slide-up">
         <div className="relative max-h-[400px] sm:h-80 md:h-full w-full overflow-hidden rounded-xl shadow-xl">
           <img
-            src="/src/assets/img/image.png"
+            src="./image.png"
             alt="Birthday celebration"
             className="w-full h-full object-cover transform-origin-center transition-transform duration-700 hover:scale-105"
           />
