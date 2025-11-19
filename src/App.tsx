@@ -14,6 +14,7 @@ import MonsterUnified from './components/MonsterUnified';
 import { MonsterProvider } from './contexts/MonsterContext';
 import { useMonsterFeed } from './hooks/useMonsterFeed';
 import { useTutorial } from './hooks/useTutorial';
+import Snowfall from 'react-snowfall' 
 
 // Map itemId to route
 const NAV_ROUTES: Record<string, string> = {
@@ -93,6 +94,8 @@ function AppContent() {
 
   return (
     <div className="min-h-screen flex flex-col">
+          <Snowfall style={{zIndex: 1000}}/>
+
       <main className="flex-1 flex items-center justify-center">
         <Routes>
           <Route
