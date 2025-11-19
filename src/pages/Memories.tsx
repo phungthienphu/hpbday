@@ -206,7 +206,7 @@ const Memories = () => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-3xl rounded-3xl bg-white p-4 sm:p-6 shadow-2xl space-y-4">
+                <Dialog.Panel className="w-full max-w-2xl py-2 rounded-xl bg-white sm:p-6 shadow-2xl space-y-4">
                   <Dialog.Title className="text-center text-xl font-semibold text-gray-900">
                     {memories.find((m) => m.id === selectedAlbum)?.title}
                   </Dialog.Title>
@@ -222,15 +222,15 @@ const Memories = () => {
                         swiperRef.current = swiper;
                         swiper.slideToLoop(initialSlide, 0);
                       }}
-                      className="rounded-2xl overflow-hidden"
+                      className="rounded-0 overflow-hidden"
                     >
                       {modalImages.map((src, idx) => (
                         <SwiperSlide key={`${selectedAlbum}-${idx}`}>
-                          <div className="mx-auto w-full max-w-[420px] aspect-square bg-gray-200 rounded-2xl overflow-hidden flex items-center justify-center">
+                          <div className="mx-auto w-full max-w-[420px] aspect-square bg-gray-100  overflow-hidden flex items-center justify-center ">
                             <img
                               src={src}
                               alt=""
-                              className="h-full w-full object-cover"
+                              className="max-h-full max-w-full object-contain"
                             />
                           </div>
                         </SwiperSlide>
@@ -244,7 +244,7 @@ const Memories = () => {
 
                   <button
                     onClick={closeAlbum}
-                    className="w-full py-3 rounded-2xl border border-gray-300 text-gray-700 font-semibold hover:bg-gray-100 transition"
+                    className="w-full py-2 rounded-xl border border-gray-300 text-gray-700 font-semibold hover:bg-gray-100 transition"
                   >
                     Đóng lại
                   </button>
