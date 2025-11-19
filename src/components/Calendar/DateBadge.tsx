@@ -12,7 +12,7 @@ const DateBadge = ({ date }: DateBadgeProps) => {
         <div className="absolute -top-2 left-3 w-3 h-4 bg-orange-600 rounded-t-full"></div>
         <div className="absolute -top-2 right-3 w-3 h-4 bg-orange-600 rounded-t-full"></div>
         {/* Date number */}
-        <span className="text-4xl font-bold text-white">
+        <span className="lg:text-4xl lg:font-bold md:text-4xl md:font-bold text-2xl font-semibold text-white">
           {date.format('DD')}
         </span>
       </div>

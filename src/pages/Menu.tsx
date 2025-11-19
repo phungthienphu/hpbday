@@ -7,10 +7,10 @@ const Menu = () => {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-[70vh] flex items-center justify-center px-4 py-10">
+      <div className="min-h-[70vh] flex items-center justify-center px-4 sm:px-6 py-10">
         <div className="max-w-4xl w-full">
-          <div className="card animate-fade-in bg-gradient-to-r from-pastel-pink/80 via-pastel-peach/80 to-pastel-blue/80 shadow-2xl md:flex md:items-center md:justify-between">
-            <div className="md:w-2/3 pr-0 md:pr-8">
+          <div className="card animate-fade-in bg-gradient-to-r from-pastel-pink/80 via-pastel-peach/80 to-pastel-blue/80 shadow-2xl flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div className="md:w-2/3 pr-0 md:pr-8 text-center md:text-left">
               <p className="text-xs tracking-[0.3em] uppercase text-gray-700 mb-3">
                 Event
               </p>
@@ -22,7 +22,7 @@ const Menu = () => {
                 nhân vật chính trong ngày sinh nhật.
               </p>
 
-              <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
+              <div className="grid sm:grid-cols-2 gap-4 text-sm text-gray-700">
                 <div className="bg-white/60 rounded-xl p-4">
                   <h3 className="font-semibold mb-2">💌 Mã lời chúc</h3>
                   <p>
@@ -40,7 +40,7 @@ const Menu = () => {
               </div>
             </div>
 
-            <div className="mt-6 md:mt-0 md:w-1/3 flex md:flex-col items-center justify-center gap-4">
+            <div className="mt-2 md:mt-0 md:w-1/3 flex md:flex-col items-center justify-center gap-4">
               <div className="text-6xl">🔒</div>
               <Link to="/" className="btn-primary">
                 Đăng nhập để tiếp tục
@@ -53,10 +53,10 @@ const Menu = () => {
   }
 
   return (
-    <div className="container mx-auto px-6 py-12">
+    <div className="container mx-auto  lg:px-4 md:px-4 px:1 lg:py-12 md:py-12 py-6">
       <div className="max-w-4xl mx-auto">
-        <div className="card text-center mb-8 animate-fade-in bg-gradient-to-r from-pastel-pink/80 via-pastel-peach/80 to-pastel-blue/80">
-          <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pastel-pink to-pastel-purple mb-4">
+        <div className="card text-center lg:mb-8 md:mb-8 mb-4 animate-fade-in bg-gradient-to-r from-pastel-pink/80 via-pastel-peach/80 to-pastel-blue/80">
+          <h1 className="lg:text-4xl lg:font-bold md:text-4xl md:font-bold text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-pastel-pink to-pastel-purple mb-4">
             ✨ Birthday sections ✨
           </h1>
           <p className="text-lg text-gray-700">
@@ -64,7 +64,7 @@ const Menu = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid gap-6">
           {/* Code Input Card */}
           <Link to="/code-input">
             <div className="card card-hover text-center cursor-pointer animate-slide-up group">
@@ -79,25 +79,6 @@ const Menu = () => {
               <div className="bg-pastel-pink/20 p-3 rounded-lg">
                 <p className="text-sm text-gray-700">
                   🎯 Mỗi mã là một lời yêu thương
-                </p>
-              </div>
-            </div>
-          </Link>
-
-          {/* Memories Card */}
-          <Link to="/memories">
-            <div className="card card-hover text-center cursor-pointer animate-slide-up group" style={{ animationDelay: '0.1s' }}>
-              <div className="text-7xl mb-4 group-hover:animate-bounce">📸</div>
-              <h2 className="text-2xl font-bold text-pastel-purple mb-3">
-                Kỷ niệm sinh nhật
-              </h2>
-              <p className="text-gray-600 mb-4">
-                Những khoảnh khắc đáng nhớ quanh ngày sinh nhật: tiệc tùng, bạn bè,
-                gia đình,...
-              </p>
-              <div className="bg-pastel-purple/20 p-3 rounded-lg">
-                <p className="text-sm text-gray-700">
-                  💖 Từng hình ảnh, từng kỷ niệm
                 </p>
               </div>
             </div>
