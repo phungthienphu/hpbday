@@ -123,7 +123,7 @@ const CodeInput = () => {
             </button>
             <div className="text-center space-y-4">
               <div className="text-6xl animate-bounce">{unlockedMessage.emoji}</div>
-              <h3 className="text-2xl font-semibold text-gray-900">Thông điệp cho em</h3>
+              <h3 className="lg:text-2xl md:text-xl text-lg">Thông điệp cho em</h3>
               <p className="text-lg text-gray-700 leading-relaxed">
                 {unlockedMessage.message}
               </p>

@@ -56,10 +56,10 @@ const Menu = () => {
     <div className="container mx-auto  lg:px-4 md:px-4 px:1 lg:py-12 md:py-12 py-6">
       <div className="max-w-4xl mx-auto">
         <div className="card text-center lg:mb-8 md:mb-8 mb-4 animate-fade-in bg-gradient-to-r from-pastel-pink/80 via-pastel-peach/80 to-pastel-blue/80">
-          <h1 className="lg:text-4xl lg:font-bold md:text-4xl md:font-bold text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-pastel-pink to-pastel-purple mb-4">
+          <h1 className="lg:text-3xl lg:font-bold md:text-4xl md:font-bold text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-pastel-pink to-pastel-purple mb-4">
             ✨ Birthday sections ✨
           </h1>
-          <p className="text-lg text-gray-700">
+          <p className="text-base text-gray-700 px-3 lg:px-0">
             Chọn một trong những mục bên dưới để xem lời chúc và kỷ niệm sinh nhật.
           </p>
         </div>
@@ -68,13 +68,12 @@ const Menu = () => {
           {/* Code Input Card */}
           <Link to="/code-input">
             <div className="card card-hover text-center cursor-pointer animate-slide-up group">
-              <div className="text-7xl mb-4 group-hover:animate-bounce">💌</div>
-              <h2 className="text-2xl font-bold text-pastel-purple mb-3">
+              <div className="text-4xl mb-4 group-hover:animate-bounce">💌</div>
+              <h2 className="text-xl font-bold text-pastel-purple mb-3">
                 Nhập mã lời chúc
               </h2>
-              <p className="text-gray-600 mb-4">
-                Nhập các mã đã chuẩn bị trước để mở ra những lời chúc sinh nhật được
-                thiết kế riêng.
+              <p className="text-gray-600 mb-4 px-3 lg:px-0">
+                Nhập các mã em cào trúng và nhận thông điệp từ anh nhé!
               </p>
               <div className="bg-pastel-pink/20 p-3 rounded-lg">
                 <p className="text-sm text-gray-700">
@@ -88,11 +87,10 @@ const Menu = () => {
         {/* Info Card */}
         <div className="card mt-8 bg-gradient-to-r from-pastel-pink to-pastel-purple text-white text-center animate-fade-in">
           <h3 className="text-xl font-bold mb-2">
-            💡 Mẹo nhỏ
+            💡 Lưu ý
           </h3>
           <p>
-            Bạn có thể đưa link trang này cho bạn bè, mỗi người một mã lời chúc
-            khác nhau để người được chúc mở dần trong suốt ngày sinh nhật.
+            Em chỉ được dùng mục này khi thực sự cần thiết thôi nhé!
           </p>
         </div>
       </div>
