@@ -163,7 +163,7 @@ const LoginModal = ({
                 <p className="text-xs tracking-[0.3em] uppercase text-gray-500 mb-1">
                   ACCESS
                 </p>
-                <h2 className="lg:text-4xl lg:font-bold md:text-4xl md:font-bold text-2xl font-semibold text-gray-900">
+                <h2 className="lg:text-4xl lg:font-bold md:text-4xl md:font-bold lg:text-2xl md:text-xl text-lg">
                   Select Date
                 </h2>
               </div>

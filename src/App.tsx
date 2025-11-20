@@ -8,13 +8,14 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Menu from './pages/Menu';
 import CodeInput from './pages/CodeInput';
-import Memories from './pages/Memories';
+import Memories from './pages/Memories/Memories';
 import LoginModal from './components/LoginModal';
 import MonsterUnified from './components/MonsterUnified';
 import { MonsterProvider } from './contexts/MonsterContext';
 import { useMonsterFeed } from './hooks/useMonsterFeed';
 import { useTutorial } from './hooks/useTutorial';
 import Snowfall from 'react-snowfall' 
+import LoadingComponent from './components/loading/index.';
 
 // Map itemId to route
 const NAV_ROUTES: Record<string, string> = {
@@ -207,6 +208,7 @@ function App() {
     <Provider store={store}>
       <Router>
         <MonsterProvider>
+          <LoadingComponent />
           <AppContent />
         </MonsterProvider>
       </Router>

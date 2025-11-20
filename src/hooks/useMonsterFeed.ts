@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useCallback, useRef, useEffect } from 'react';
 import { useMonster } from '../contexts/MonsterContext';
 
 interface NavItem {
@@ -9,7 +9,7 @@ interface NavItem {
 
 export const useMonsterFeed = () => {
   const { monsterPosition, setDistanceToMonster, setIsMonsterEating } = useMonster();
-  const [navItems, setNavItems] = useState<Map<string, NavItem>>(new Map());
+  const navItemsRef = useRef<Map<string, NavItem>>(new Map());
   const feedingCallbackRef = useRef<((itemId: string) => void) | null>(null);
   
   // Refs để tránh stale closures và optimize
@@ -24,39 +24,37 @@ export const useMonsterFeed = () => {
   // Update nav item position - throttled
   const updateNavItemPosition = useCallback(
     (id: string, x: number, y: number) => {
-      setNavItems((prev) => {
-        const newMap = new Map(prev);
-        const item = newMap.get(id);
-        if (item) {
-          newMap.set(id, { ...item, position: { x, y } });
+      const newMap = new Map(navItemsRef.current);
+      const item = newMap.get(id);
+      if (item) {
+        newMap.set(id, { ...item, position: { x, y } });
 
-          // Calculate distance if dragging - throttle để tránh quá nhiều calculations
-          if (item.isDragging) {
-            // Clear previous timeout
-            if (distanceTimeoutRef.current) {
-              clearTimeout(distanceTimeoutRef.current);
-            }
-            
-            // Throttle distance calculation
-            distanceTimeoutRef.current = window.setTimeout(() => {
-              const currentMonsterPos = monsterPosRef.current;
-              const distance = Math.sqrt(
-                Math.pow(x - currentMonsterPos.x, 2) + Math.pow(y - currentMonsterPos.y, 2)
-              );
-              setDistanceToMonster(distance);
-            }, 16); // ~60fps
+        // Calculate distance if dragging - throttle để tránh quá nhiều calculations
+        if (item.isDragging) {
+          // Clear previous timeout
+          if (distanceTimeoutRef.current) {
+            clearTimeout(distanceTimeoutRef.current);
           }
-        } else {
-          // Register new item
-          newMap.set(id, { id, position: { x, y }, isDragging: false });
+          
+          // Throttle distance calculation
+          distanceTimeoutRef.current = window.setTimeout(() => {
+            const currentMonsterPos = monsterPosRef.current;
+            const distance = Math.sqrt(
+              Math.pow(x - currentMonsterPos.x, 2) + Math.pow(y - currentMonsterPos.y, 2)
+            );
+            setDistanceToMonster(distance);
+          }, 16); // ~60fps
         }
-        return newMap;
-      });
+      } else {
+        // Register new item
+        newMap.set(id, { id, position: { x, y }, isDragging: false });
+      }
+
+      navItemsRef.current = newMap;
     },
     
     [setDistanceToMonster]
   );
-  console.log(navItems);
 
   // Trigger feeding animation - define trước để dùng trong endDragging
   const triggerFeeding = useCallback(
@@ -76,17 +74,15 @@ export const useMonsterFeed = () => {
 
   // Start dragging nav item
   const startDragging = useCallback((id: string) => {
-    setNavItems((prev) => {
-      const newMap = new Map(prev);
-      const item = newMap.get(id);
-      if (item) {
-        newMap.set(id, { ...item, isDragging: true });
-      } else {
-        // Register if not exists
-        newMap.set(id, { id, position: { x: 0, y: 0 }, isDragging: true });
-      }
-      return newMap;
-    });
+    const newMap = new Map(navItemsRef.current);
+    const item = newMap.get(id);
+    if (item) {
+      newMap.set(id, { ...item, isDragging: true });
+    } else {
+      // Register if not exists
+      newMap.set(id, { id, position: { x: 0, y: 0 }, isDragging: true });
+    }
+    navItemsRef.current = newMap;
   }, []);
 
   // End dragging nav item
@@ -98,30 +94,28 @@ export const useMonsterFeed = () => {
         distanceTimeoutRef.current = null;
       }
 
-      setNavItems((prev) => {
-        const newMap = new Map(prev);
-        const item = newMap.get(id);
-        if (item) {
-          newMap.set(id, { ...item, isDragging: false });
-          
-          // Check if should feed - use current ref values để tránh stale closure
-          if (shouldCheckFeed) {
-            const currentMonsterPos = monsterPosRef.current;
-            const distance = Math.sqrt(
-              Math.pow(item.position.x - currentMonsterPos.x, 2) +
-                Math.pow(item.position.y - currentMonsterPos.y, 2)
-            );
+      const newMap = new Map(navItemsRef.current);
+      const item = newMap.get(id);
+      if (item) {
+        newMap.set(id, { ...item, isDragging: false });
+        
+        // Check if should feed - use current ref values để tránh stale closure
+        if (shouldCheckFeed) {
+          const currentMonsterPos = monsterPosRef.current;
+          const distance = Math.sqrt(
+            Math.pow(item.position.x - currentMonsterPos.x, 2) +
+              Math.pow(item.position.y - currentMonsterPos.y, 2)
+          );
 
-            if (distance < 80) {
-              // Use setTimeout để tránh state update trong render
-              setTimeout(() => {
-                triggerFeeding(id);
-              }, 0);
-            }
+          if (distance < 80) {
+            // Use setTimeout để tránh state update trong render
+            setTimeout(() => {
+              triggerFeeding(id);
+            }, 0);
           }
         }
-        return newMap;
-      });
+      }
+      navItemsRef.current = newMap;
 
       // Reset distance
       setTimeout(() => setDistanceToMonster(1000), 300);

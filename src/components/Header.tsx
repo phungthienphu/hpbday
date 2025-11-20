@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../store/store";
 import { logout } from "../features/authSlice";
@@ -23,6 +23,7 @@ const Header = ({
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const currentPath = useLocation().pathname;
 
   const handleLogout = () => {
     dispatch(logout());
@@ -59,7 +60,7 @@ const Header = ({
             shouldReset={shouldResetItems}
             className="text-gray-800 hover:text-gray-900 transition-all duration-200"
           >
-            <span className="text-sm md:text-base lg:text-base">🎂Home</span>
+            <span className={`text-sm md:text-base lg:text-base ${currentPath === "/" ? "font-bold" : ""}`}>🎂Home</span>
           </DraggableNavItem>
 
           <DraggableNavItem
@@ -69,9 +70,9 @@ const Header = ({
             onDragStart={() => onNavItemDragStart("event")}
             onDragEnd={(hasMoved) => onNavItemDragEnd("event", hasMoved)}
             shouldReset={shouldResetItems}
-            className="text-gray-800 hover:text-gray-900 transition-all duration-200"
+            className={`text-gray-800 hover:text-gray-900 transition-all duration-200`}
           >
-            <span className="text-sm md:text-base lg:text-base">🎂Event</span>
+            <span className={`text-sm md:text-base lg:text-base ${currentPath === "/menu" ? "font-bold" : ""}`}>🎂Event</span>
           </DraggableNavItem>
 
           <DraggableNavItem
@@ -83,7 +84,7 @@ const Header = ({
             shouldReset={shouldResetItems}
             className="text-gray-800 hover:text-gray-900 transition-all duration-200"
           >
-            <span className="text-sm md:text-base lg:text-base">🎂About</span>
+            <span className={`text-sm md:text-base lg:text-base ${currentPath === "/about" ? "font-bold" : ""}`}>🎂About</span>
           </DraggableNavItem>
 
           {isAuthenticated ? (
@@ -100,7 +101,7 @@ const Header = ({
               className="text-gray-800 hover:text-gray-900 transition-all duration-200"
             >
               <span className="text-sm md:text-base lg:text-base">
-                🎂Memories
+                <span className={`text-sm md:text-base lg:text-base ${currentPath === "/memories" ? "font-bold" : ""}`}>🎂Memories</span>
               </span>
             </DraggableNavItem>
           ) : null}

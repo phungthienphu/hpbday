@@ -4,11 +4,13 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 interface AuthState {
   isAuthenticated: boolean;
   anniversaryDate: string | null;
+  isLoading: boolean;
 }
 
 const initialState: AuthState = {
   isAuthenticated: false,
   anniversaryDate: null,
+  isLoading: false,
 };
 
 const authSlice = createSlice({
@@ -40,9 +42,12 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.anniversaryDate = null;
     },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    },
   },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout, setLoading } = authSlice.actions;
 export default authSlice.reducer;
 
