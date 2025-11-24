@@ -1,6 +1,7 @@
-import { FaEllipsisH, FaTrash } from "react-icons/fa";
+import { FaEdit, FaEllipsisH, FaTrash } from "react-icons/fa";
 import { useState } from "react";
 import ModalCustom from "../../components/Modal/modalCustom";
+import ActionAlbum from "./ActionAlbum";
 interface IFolder {
   _id: string;
   name: string;
@@ -12,15 +13,17 @@ interface MemoriesItemProps {
   folder: IFolder;
   openAlbum: (folderId: string) => void;
   handleDelete: (folderId: string) => void;
+  fetchFolders: () => void;
 }
 const MemoriesItem = ({
   folder,
   openAlbum,
   handleDelete,
+  fetchFolders,
 }: MemoriesItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
-
+  const [modalEdit, setModalEdit] = useState(false);
   return (
     <div
       className="card relative card-hover cursor-pointer animate-slide-up flex flex-col h-full"
@@ -57,10 +60,18 @@ const MemoriesItem = ({
             }}
           >
             <li
-              className="cursor-pointer px-4 hover:opacity-60"
+              className="cursor-pointer px-4 hover:opacity-60 hover:bg-red-200 flex gap-2 items-center hover:text-red-500 justify-between"
               onClick={() => setModalDelete(true)}
             >
+              <span className="text-sm text-gray-500">Delete</span>
               <FaTrash className="w-3 h-3 text-red-500" />
+            </li>
+            <li
+              className="cursor-pointer px-4 flex items-center gap-2 hover:opacity-60 hover:bg-gray-200  hover:text-gray-500 justify-between"
+              onClick={() => setModalEdit(true)}
+            >
+              <span className="text-sm text-gray-500">Edit</span>
+              <FaEdit className="w-3 h-3 text-gray-500" />
             </li>
           </ul>
         )}
@@ -93,6 +104,12 @@ const MemoriesItem = ({
         show={modalDelete}
         onClose={() => setModalDelete(false)}
         onSubmit={() => handleDelete(folder._id)}
+      />
+      <ActionAlbum
+        openModal={modalEdit}
+        closeModal={() => setModalEdit(false)}
+        fetchFolders={fetchFolders}
+        initialFolder={folder}
       />
     </div>
   );

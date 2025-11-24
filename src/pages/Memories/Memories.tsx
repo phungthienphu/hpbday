@@ -132,6 +132,7 @@ const Memories = () => {
                 folder={folder}
                 openAlbum={openAlbum}
                 handleDelete={handleDelete}
+                fetchFolders={fetchFolders}
               />
             );
           })}

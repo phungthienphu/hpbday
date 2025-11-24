@@ -1,5 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import { FaTimes } from "react-icons/fa";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -7,13 +7,25 @@ import folder from "../../client/folder";
 import { setLoading } from "../../features/authSlice";
 import { useDispatch } from "react-redux";
 import { setSuccess } from "../../features/uiSlice";
+interface IFolder {
+  _id: string;
+  name: string;
+  description: string;
+  previewImage: string;
+}
 interface ActionAlbumProps {
   openModal: boolean;
   closeModal: () => void;
   fetchFolders: () => void;
+  initialFolder?: IFolder;
 }
 
-const ActionAlbum = ({ openModal, closeModal, fetchFolders }: ActionAlbumProps) => {
+const ActionAlbum = ({
+  openModal,
+  closeModal,
+  fetchFolders,
+  initialFolder,
+}: ActionAlbumProps) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useDispatch();
   const AlbumFormik = useFormik({
@@ -35,12 +47,11 @@ const ActionAlbum = ({ openModal, closeModal, fetchFolders }: ActionAlbumProps) 
   const CreateFolder = async () => {
     try {
       dispatch(setLoading(true));
-      const response = await folder.createFolder(
+      await folder.createFolder(
         AlbumFormik.values.Name,
         AlbumFormik.values.Description,
         AlbumFormik.values.previewFile
       );
-      console.log(response);
       dispatch(setSuccess("Album đã được tạo thành công"));
     } catch (error) {
       console.log(error);
@@ -57,9 +68,29 @@ const ActionAlbum = ({ openModal, closeModal, fetchFolders }: ActionAlbumProps) 
     }
   };
 
+  useEffect(() => {
+    if (openModal) {
+      if (initialFolder) {
+        AlbumFormik.setFieldValue("Name", initialFolder.name);
+        AlbumFormik.setFieldValue("Description", initialFolder.description);
+        AlbumFormik.setFieldValue("previewFile", initialFolder.previewImage);
+      } else {
+        AlbumFormik.setValues({
+          Name: "",
+          Description: "",
+          previewFile: null as File | null,
+        });
+      }
+    }
+  }, [initialFolder, openModal]);
+
   return (
     <Transition appear show={openModal} as={Fragment}>
-      <Dialog as="div" className="relative z-[100]" onClose={closeModal}>
+      <Dialog
+        as="div"
+        className="relative z-[100] max-h-[400px] overflow-y-auto"
+        onClose={closeModal}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-200"
@@ -92,7 +123,7 @@ const ActionAlbum = ({ openModal, closeModal, fetchFolders }: ActionAlbumProps) 
               </button>
 
               <Dialog.Title className="text-lg font-semibold mb-4">
-                Thêm Album Mới
+                {folder ? "Sửa Album" : "Thêm Album Mới"}
               </Dialog.Title>
 
               <form onSubmit={AlbumFormik.handleSubmit} className="space-y-4">
@@ -110,7 +141,7 @@ const ActionAlbum = ({ openModal, closeModal, fetchFolders }: ActionAlbumProps) 
                     name="Name"
                     placeholder="Tên Album"
                   />
-                  {AlbumFormik.errors.Name && (
+                  {AlbumFormik.errors.Name && AlbumFormik.touched.Name && (
                     <p className="text-red-500 text-sm">
                       {AlbumFormik.errors.Name}
                     </p>
@@ -129,11 +160,12 @@ const ActionAlbum = ({ openModal, closeModal, fetchFolders }: ActionAlbumProps) 
                     onBlur={AlbumFormik.handleBlur}
                     className="w-full border rounded-md p-2"
                   />
-                  {AlbumFormik.errors.Description && (
-                    <p className="text-red-500 text-sm">
-                      {AlbumFormik.errors.Description}
-                    </p>
-                  )}
+                  {AlbumFormik.errors.Description &&
+                    AlbumFormik.touched.Description && (
+                      <p className="text-red-500 text-sm">
+                        {AlbumFormik.errors.Description}
+                      </p>
+                    )}
                 </div>
 
                 <div>
@@ -149,7 +181,7 @@ const ActionAlbum = ({ openModal, closeModal, fetchFolders }: ActionAlbumProps) 
                     className={AlbumFormik.values.previewFile ? "hidden" : ""}
                   />
                   {AlbumFormik.values.previewFile && (
-                    <div className="mt-2 relative w-full h-[400px] object-contain rounded-md bg-slate-300">
+                    <div className="mt-2 relative w-full h-[300px] object-contain rounded-md bg-slate-300">
                       <button
                         type="button"
                         onClick={(e) => {
@@ -169,6 +201,7 @@ const ActionAlbum = ({ openModal, closeModal, fetchFolders }: ActionAlbumProps) 
                       </button>
                       <img
                         src={
+                          initialFolder?.previewImage ||
                           URL.createObjectURL(AlbumFormik.values.previewFile) ||
                           ""
                         }
@@ -184,7 +217,7 @@ const ActionAlbum = ({ openModal, closeModal, fetchFolders }: ActionAlbumProps) 
                     type="submit"
                     className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
                   >
-                    Thêm Album
+                    {initialFolder ? "Lưu" : "Thêm Album"}
                   </button>
                 </div>
               </form>

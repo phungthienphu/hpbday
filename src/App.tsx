@@ -18,6 +18,7 @@ import Snowfall from 'react-snowfall'
 import LoadingComponent from './components/loading/index.';
 import Notification from './components/Notification';
 
+
 // Map itemId to route
 const NAV_ROUTES: Record<string, string> = {
   home: '/',
