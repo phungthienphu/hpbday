@@ -16,6 +16,7 @@ import { useMonsterFeed } from './hooks/useMonsterFeed';
 import { useTutorial } from './hooks/useTutorial';
 import Snowfall from 'react-snowfall' 
 import LoadingComponent from './components/loading/index.';
+import Notification from './components/Notification';
 
 // Map itemId to route
 const NAV_ROUTES: Record<string, string> = {
@@ -96,6 +97,7 @@ function AppContent() {
   return (
     <div className="min-h-screen flex flex-col">
           <Snowfall style={{zIndex: 1000}}/>
+      <Notification />
 
       <main className="flex-1 flex items-center justify-center">
         <Routes>

@@ -1,46 +1,42 @@
 import { useMemo, useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../store/store";
-import { Navigate } from "react-router-dom";
-import cloudinary from "../../client/cloudinary";
+import { useNavigate } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 import Sliderdetail from "./Sliderdetail";
-
+import folder from "../../client/folder";
+import ImagePreview from "../../components/ImagePreview";
+import { FaPlus } from "react-icons/fa";
+import ActionAlbum from "./ActionAlbum";
+import { setLoading } from "../../features/authSlice";
+import { setSuccess } from "../../features/uiSlice";
+import MemoriesItem from "./MemoriItem";
 
 const HERO_SEED = Math.random();
-interface IImageItem{
-  external_id: string;
+interface IFolder {
+  createdAt: string;
+  description: string;
   name: string;
   path: string;
   previewImage: string;
+  updatedAt: string;
+  __v: number;
+  _id: string;
 }
 const Memories = () => {
+  const navigate = useNavigate();
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
-  const { memories } = useSelector((state: RootState) => state.memory);
-  const [images, setImages] = useState<IImageItem[]>([]);
   const [selectedAlbum, setSelectedAlbum] = useState<string>();
   const [openModal, setOpenModal] = useState(false);
-
-
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const response = await cloudinary.getFoldersWithPreview("CUA");
-        const images = response;
-        setImages(images);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchImages();
-  }, []);
-
-  const heroImage = useMemo<IImageItem | null>(() => {
-    if (!images.length) return null;
-    const idx = Math.floor(HERO_SEED * images.length) % images.length;
-    return images[idx];
-  }, [images]);
+  const [folders, setFolders] = useState<IFolder[]>([]);
+  const [modalAction, setModalAction] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const heroImage = useMemo<IFolder | null>(() => {
+    if (!folders.length) return null;
+    const idx = Math.floor(HERO_SEED * folders.length) % folders.length;
+    return folders[idx];
+  }, [folders]);
 
   const openAlbum = (albumId: string) => {
     setSelectedAlbum(albumId);
@@ -50,9 +46,38 @@ const Memories = () => {
     setSelectedAlbum("");
     setOpenModal(false);
   };
-  if (!isAuthenticated) {
-    return <Navigate to="/" />;
-  }
+  const fetchFolders = async () => {
+    try {
+      dispatch(setLoading(true));
+      const response = await folder.getFolders();
+      setFolders(response as IFolder[]);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+  const handleDelete = async (folderId: string) => {
+    try {
+      dispatch(setLoading(true));
+      const response = await folder.deleteFolder(folderId);
+      console.log(response);
+      dispatch(setSuccess("Album đã được xóa thành công"));
+      fetchFolders();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/");
+      return;
+    }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchFolders();
+  }, []);
 
   return (
     <div className="container mx-auto  lg:px-4 md:px-4 px:1 lg:py-12 md:py-12 py-6">
@@ -61,69 +86,53 @@ const Memories = () => {
         {heroImage && (
           <div
             className="card animate-fade-in flex flex-col md:flex-row items-center gap-6 cursor-pointer"
-            onClick={() => openAlbum(heroImage.path)}
+            onClick={() => openAlbum(heroImage._id)}
           >
             <div className="relative w-full md:w-1/2 h-56 md:h-72 overflow-hidden lg:rounded-xl md:rounded-xl rounded-md">
-              <img
-                src={heroImage.previewImage}
-                alt={heroImage.name}
-                className="w-full h-full object-cover"
-              />
+              {heroImage.previewImage ? (
+                <img
+                  src={heroImage.previewImage}
+                  alt={heroImage.name}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <ImagePreview imageName={heroImage.name} />
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
             </div>
             <div className="text-center md:text-left space-y-3 md:w-1/2">
               <p className="text-xs tracking-[0.3em] uppercase text-gray-500">
-                Featured memory
+                Featured album
               </p>
               <h2 className="lg:text-2xl md:text-xl text-lg font-semibold text-gray-900">
                 {heroImage.name}
               </h2>
               <p className="text-sm text-gray-600">
-                Nhấn để mở slideshow kỷ niệm này nhé 💞
+                Nhấn để mở slideshow album này nhé 💞
               </p>
             </div>
           </div>
         )}
 
+        <div className="flex justify-end w-full">
+          <button
+            onClick={() => setModalAction(true)}
+            className="bg-pastel-pink text-white px-4 py-4 rounded-md flex justify-center items-center gap-2 cursor-pointer w-full shadow-sm hover:opacity-90 hover:text-gray-600"
+          >
+            <FaPlus className="w-6 h-6 " />
+            <span className="">Thêm album</span>
+          </button>
+        </div>
         {/* Memories Grid */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {images.map((image) => {
+          {folders.map((folder) => {
             return (
-              <div
-                key={image.external_id}
-                className="card card-hover cursor-pointer animate-slide-up flex flex-col h-full"
-                onClick={() => openAlbum(image.path)}
-              >
-                <div className="relative overflow-hidden lg:rounded-xl md:rounded-xl rounded-md mb-4 h-56 sm:h-64">
-                  {image.previewImage ? (
-                    <img
-                      src={image.previewImage}
-                      alt={image.name}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">
-                      No image
-                    </div>
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                    <p className="text-white p-4 font-semibold">
-                      Nhấp để xem chi tiết 💕
-                    </p>
-                  </div>
-                </div>
-
-                {/* <div className="inline-block bg-gradient-to-r from-pastel-pink to-pastel-purple text-white px-4 py-1 rounded-full text-sm font-semibold mb-3">
-                  📅 {memory.date}
-                </div>
-
-                <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                  {memory.title}
-                </h3>
-                <p className="text-gray-700 leading-relaxed flex-1">
-                  {memory.description}
-                </p> */}
-              </div>
+              <MemoriesItem
+                key={folder._id}
+                folder={folder}
+                openAlbum={openAlbum}
+                handleDelete={handleDelete}
+              />
             );
           })}
         </div>
@@ -145,7 +154,7 @@ const Memories = () => {
           <div className="card text-center card-hover">
             <div className="text-5xl mb-3">📷</div>
             <p className="text-3xl font-bold text-pastel-purple mb-1">
-              {memories.length}
+              {folders.length}
             </p>
             <p className="text-gray-600">Bộ sưu tập</p>
           </div>
@@ -168,6 +177,11 @@ const Memories = () => {
         closeModal={closeModal}
         setOpenModal={setOpenModal}
         selectedAlbum={selectedAlbum ?? null}
+      />
+      <ActionAlbum
+        openModal={modalAction}
+        closeModal={() => setModalAction(false)}
+        fetchFolders={fetchFolders}
       />
     </div>
   );
