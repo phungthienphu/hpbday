@@ -24,7 +24,7 @@ const authSlice = createSlice({
       const { day, month, year } = action.payload;
 
       // Ngày kỷ niệm cố định (ví dụ 1-1-2025)
-      const validDay = 1;
+      const validDay = 9;
       const validMonth = 1;
       const validYear = 2025;
 

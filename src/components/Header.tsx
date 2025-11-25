@@ -116,59 +116,6 @@ const Header = ({
           )}
         </div>
       </nav>
-
-      {/* <Transition appear show={showLogoutConfirm} as={Fragment}>
-          <Dialog as="div" className="relative z-[100]" onClose={() => setShowLogoutConfirm(false)}>
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-200"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-150"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <div className="fixed inset-0 bg-black/20 backdrop-blur-sm" />
-            </Transition.Child>
-
-            <div className="fixed inset-0 overflow-y-auto">
-              <div className="flex min-h-full items-center justify-center px-4 py-8">
-                <Transition.Child
-                  as={Fragment}
-                  enter="ease-out duration-200"
-                  enterFrom="opacity-0 scale-95"
-                  enterTo="opacity-100 scale-100"
-                  leave="ease-in duration-150"
-                  leaveFrom="opacity-100 scale-100"
-                  leaveTo="opacity-0 scale-95"
-                >
-                  <Dialog.Panel className="w-full max-w-sm rounded-3xl bg-white p-6 shadow-2xl">
-                    <Dialog.Title className="text-lg font-semibold text-gray-900 text-center mb-2">
-                      Rời khỏi trang?
-                    </Dialog.Title>
-                    <Dialog.Description className="text-sm text-gray-600 text-center mb-4">
-                      Chắc chắn muốn đăng xuất chứ?
-                    </Dialog.Description>
-                    <div className="grid grid-cols-2 gap-3">
-                      <button
-                        onClick={() => setShowLogoutConfirm(false)}
-                        className="py-2 rounded-2xl border border-gray-300 text-gray-700 font-semibold hover:bg-gray-100 transition"
-                      >
-                        Ở lại
-                      </button>
-                      <button
-                        onClick={handleLogout}
-                        className="py-2 rounded-2xl bg-gray-900 text-white font-semibold hover:bg-black transition"
-                      >
-                        Đăng xuất
-                      </button>
-                    </div>
-                  </Dialog.Panel>
-                </Transition.Child>
-              </div>
-            </div>
-          </Dialog>
-        </Transition> */}
       <ModalCustom
         title="Rời khỏi trang?"
         description="Chắc chắn muốn đăng xuất chứ?"
