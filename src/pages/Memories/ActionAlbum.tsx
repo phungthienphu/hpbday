@@ -47,11 +47,20 @@ const ActionAlbum = ({
   const CreateFolder = async () => {
     try {
       dispatch(setLoading(true));
-      await folder.createFolder(
-        AlbumFormik.values.Name,
-        AlbumFormik.values.Description,
-        AlbumFormik.values.previewFile
-      );
+      if (initialFolder) {
+        await folder.updateFolder(
+          initialFolder._id,
+          AlbumFormik.values.Name,
+          AlbumFormik.values.Description,
+          AlbumFormik.values.previewFile
+        );
+      } else {
+        await folder.createFolder(
+          AlbumFormik.values.Name,
+          AlbumFormik.values.Description,
+          AlbumFormik.values.previewFile
+        );
+      }
       dispatch(setSuccess("Album đã được tạo thành công"));
     } catch (error) {
       console.log(error);

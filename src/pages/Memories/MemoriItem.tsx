@@ -42,48 +42,48 @@ const MemoriesItem = ({
       )}
 
       {/* MENU */}
-      <div className="absolute z-50 top-2 right-2 shadow-sm rounded-full p-2 cursor-pointer">
-        <FaEllipsisH
-          className="w-5 h-5 text-gray-500"
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsOpen((prev) => !prev);
-          }}
-        />
+      <div
+        className="absolute z-50 top-2 right-2 shadow-sm rounded-full p-2 cursor-pointer"
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsOpen((prev) => !prev);
+        }}
+      >
+        <FaEllipsisH className="w-5 h-5 text-gray-500" />
 
         {isOpen && (
           <ul
-            className="absolute top-[100%] right-0 z-50 bg-white shadow-sm rounded-md p-2"
+            className="absolute top-[100%] right-0 z-50 bg-white shadow-sm rounded-md p-2 "
             onClick={(e) => {
               e.stopPropagation();
               setIsOpen(false);
             }}
           >
             <li
-              className="cursor-pointer px-4 hover:opacity-60 hover:bg-red-200 flex gap-2 items-center hover:text-red-500 justify-between"
+              className="cursor-pointer px-4 py-2 hover:opacity-60 hover:bg-red-200 flex gap-2 items-center rounded-md hover:text-red-500 justify-between"
               onClick={() => setModalDelete(true)}
             >
               <span className="text-sm text-gray-500">Delete</span>
               <FaTrash className="w-3 h-3 text-red-500" />
             </li>
             <li
-              className="cursor-pointer px-4 flex items-center gap-2 hover:opacity-60 hover:bg-gray-200  hover:text-gray-500 justify-between"
+              className="cursor-pointer px-4 py-2 flex items-center gap-2 hover:opacity-60 hover:bg-gray-200  rounded-md hover:text-gray-500 justify-between"
               onClick={() => setModalEdit(true)}
             >
               <span className="text-sm text-gray-500">Edit</span>
-              <FaEdit className="w-3 h-3 text-gray-500" />
+              <FaEdit className="w-3 h-3 text-blue-700" />
             </li>
           </ul>
         )}
       </div>
 
       {/* CONTENT */}
-      <div className="relative overflow-hidden lg:rounded-xl md:rounded-xl rounded-md mb-4 h-56 sm:h-64 z-10">
+      <div className="relative overflow-hidden lg:rounded-lg md:rounded-lg rounded-md mb-4 h-56 sm:h-64 z-10">
         {folder.previewImage ? (
           <img
             src={folder.previewImage}
             alt={folder.name}
-            className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
         ) : (
           <div className="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">

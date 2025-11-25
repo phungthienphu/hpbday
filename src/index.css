@@ -11,7 +11,7 @@
 
 @layer components {
   .card {
-    @apply bg-white/90 backdrop-blur-sm lg:rounded-xl md:rounded-lg rounded-md shadow-lg lg:p-6 md:p-4 p-2 transition-all duration-300;
+    @apply bg-white/90 backdrop-blur-sm lg:rounded-lg md:rounded-lg rounded-md shadow-lg lg:p-4 md:p-4 p-2 transition-all duration-300;
   }
   
   .card-hover {

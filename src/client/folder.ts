@@ -30,11 +30,19 @@ const deleteFolder = async (id: string) => {
   const response = await client.delete(`/folders/delete/${id}`);
   return response.data;
 };
-const updateFolder = async (id: string, name: string, description: string) => {
+const updateFolder = async (
+  id: string,
+  name: string,
+  description: string,
+  preview?: File | null
+) => {
   ///update/:id
-  const response = await client.put(`/folders/update/${id}`, {
-    name,
-    description,
+  const formData = new FormData();
+  formData.append("name", name);
+  formData.append("description", description);
+  if (preview) formData.append("preview", preview);
+  const response = await client.patch(`/folders/update/${id}`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
   });
   return response.data;
 };

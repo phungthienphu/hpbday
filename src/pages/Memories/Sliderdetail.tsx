@@ -252,12 +252,12 @@ const Sliderdetail = ({
                 <button
                   type="button"
                   onClick={closePreview}
-                  className="absolute top-4 right-4 text-white/80 hover:text-white transition"
+                  className="absolute top-4 right-4 text-white/80 z-50 hover:text-white transition"
                   aria-label="Đóng xem ảnh"
                 >
                   <FiX className="w-6 h-6" />
                 </button>
-                {previewImage && (
+                {previewImage ? (
                   <div
                     className="relative flex items-center justify-center"
                     onTouchStart={handleTouchStart}
@@ -288,6 +288,10 @@ const Sliderdetail = ({
                       alt={previewImage._id}
                       className="max-h-[70vh] w-full object-contain rounded-xl"
                     />
+                  </div>
+                ) : (
+                  <div className="flex items-center min-h-[70vh] justify-center">
+                    <p className="text-white text-lg font-semibold"></p>
                   </div>
                 )}
               </Dialog.Panel>

@@ -88,7 +88,7 @@ const Memories = () => {
             className="card animate-fade-in flex flex-col md:flex-row items-center gap-6 cursor-pointer"
             onClick={() => openAlbum(heroImage._id)}
           >
-            <div className="relative w-full md:w-1/2 h-56 md:h-72 overflow-hidden lg:rounded-xl md:rounded-xl rounded-md">
+            <div className="relative w-full md:w-1/2 h-56 md:h-72 overflow-hidden lg:rounded-lg md:rounded-lg rounded-md">
               {heroImage.previewImage ? (
                 <img
                   src={heroImage.previewImage}
