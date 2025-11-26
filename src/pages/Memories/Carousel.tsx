@@ -50,7 +50,7 @@ export function GalleryImages({
   }, [dispatch, fetchImagesFromAlbum, imageId]);
 
   return (
-    <div className="w-full">
+    <div className="w-full px-2">
       <ImageList
         variant="standard"
         cols={3}
@@ -62,11 +62,11 @@ export function GalleryImages({
           "& .MuiImageListItem-root": {
             borderRadius: "12px",
             overflow: "hidden",
-            position: "relative",
+            position: "relative"
           },
         }}
       >
-        <ImageListItem key="add-image" cols={1} rows={1} className="!h-36">
+        <ImageListItem key="add-image" cols={1} rows={1} className={` ${images.length > 0 ? "h-36" : "!h-36"}`}>
           <button
             type="button"
             onClick={onAddImage}
