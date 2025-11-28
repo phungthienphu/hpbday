@@ -7,7 +7,7 @@ import PageShell from './components/PageShell';
 import Home from './pages/Home';
 import About from './pages/About';
 import Menu from './pages/Menu';
-import CodeInput from './pages/CodeInput';
+import CodeInput from './pages/CodeInput/CodeInput';
 import Memories from './pages/Memories/Memories';
 import LoginModal from './components/LoginModal';
 import MonsterUnified from './components/MonsterUnified';
@@ -96,8 +96,8 @@ function AppContent() {
   const isMonsterVisible = !isCalendarOpen;
 
   return (
-    <div className="min-h-screen flex flex-col">
-          <Snowfall style={{zIndex: 1000}}/>
+    <div className="min-h-screen  flex flex-col">
+          <Snowfall  style={{zIndex: 1000}}/>
       <Notification />
 
       <main className="flex-1 flex items-center justify-center">
@@ -195,13 +195,13 @@ function AppContent() {
       />
 
       {/* Footer */}
-      <footer className="py-6 text-center text-white/80">
+      {/* <footer className="py-6 text-center text-white/80">
         <div className="container mx-auto px-6">
           <p className="text-sm">
             Made with 🎂 Birthday Event | © 2025 All rights reserved
           </p>
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 }

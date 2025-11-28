@@ -85,14 +85,14 @@ const Menu = () => {
         </div>
 
         {/* Info Card */}
-        <div className="card mt-8 bg-gradient-to-r from-pastel-pink to-pastel-purple text-white text-center animate-fade-in">
+        {/* <div className="card mt-8 bg-gradient-to-r from-pastel-pink to-pastel-purple text-white text-center animate-fade-in">
           <h3 className="text-xl font-bold mb-2">
             💡 Lưu ý
           </h3>
           <p>
             Em chỉ được dùng mục này khi thực sự cần thiết thôi nhé!
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );
