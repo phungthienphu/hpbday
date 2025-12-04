@@ -18,7 +18,7 @@ interface MemoryState {
 
 const initialState: MemoryState = {
   codeMessages: [
-    {
+    {//2
       code: "THUTRANG1509",
       messagemain: "Chúc bạn may mắn lần sau!",
       messagesub:
@@ -26,28 +26,28 @@ const initialState: MemoryState = {
       emoji: "💖",
       date: "6/12/2025",
     },
-    {
+    {//7
       code: "FOREVER",
       message:
         "Tại sao?? Tại sao em lại cào đến cái thẻ này thay vì gọi cho anh và kể vì sao em buồnn, có phải tại anh không. Anh xin lũi, anh yêu em nhiều lắm, nhưng anh cũng đần nên không tránh được làm em buồn. Anh sẽ tự phạt mình lếu như em khong kể cho anh đấy ><",
       emoji: "💍",
       date: "30/12/2025",
     },
-    {
+    {//5
       code: "SUNSHINE",
       message:
         "Anh nhớ em nhiều lắm, em có nhớ anh không? Nhớ anh thì nhắn anh 1 cái điii",
       emoji: "☀️",
       date: "28/12/2025",
     },
-    {
+    {//6
       code: "ANGEL",
       message:
         "Cho dù cuộc sống có khó khăn, dù em thấy con đường phía trước còn nhiều trắc trở và nó khiến em lo lắng, buồn rầu. Em đừng quên phía sau lưng em vẫn luôn có anh. Anh sẽ luôn ở đây để làm chỗ dựa cho em, dù có thể anh không giúp em giải quyết được. Nhưng anh có thể ôm em và lắng nghe em để cùng em vượt qua mọi chuyện. Em đừng coi thường sự lợi hại của việc cùng đồng hành nhớ!",
       emoji: "🌈",
       date: "20/12/2025",
     },
-    {
+    {//4
       code: "DREAM",
       message:
         "Đứa nào bắt nạt em, em nói anh nghe. Anh cũng hơi bị ghê gớm đấy khum kém gì bé đâu. Đụng vào anh thì đượt, đụng vào ngiu anh thì chếc với anhh. Êu mà nhỡ đó là anh thì sao nhở :v",
@@ -56,7 +56,7 @@ const initialState: MemoryState = {
       emoji: "🌈",
       date: "7/12/2025",
     },
-    {
+    {//3
       code: "STAR",
       message:
         "Em có biết anh thần tượng em kinh khủng không? Với anh anh chưa bao giờ nghĩ mình có thể có dược một cô người yêu đáng iu, chăm chỉ, xinh xắn như em. Anh trân trọng em lắm lắm. Vì thế, em đừng có tự giữ nỗi buồn 1 mình, hãy để cho fan hâm mộ của em là anh được đón nỗi buồn đó cùng em. Anh yêu em, và anh mong em sẽ luôn luôn vui vẻ, hãy thật yêu đời em nhé",
@@ -72,7 +72,7 @@ Dù mai sau có ra sao, anh vẫn mong chúng mình sẽ luôn ở bên nhau. C�
       url: "/mp3/tyca.mp3",
       date: "9/01/2026",
     },
-    {
+    {//1
       code: "BABE",
       message:
         "Anh yêu em, anh yêu em, anh yêu em, cái gì quan trọng phải nói 3 lần!",

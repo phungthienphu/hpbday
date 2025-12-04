@@ -52,7 +52,7 @@ const About = () => {
                   Facebook
                 </div>
                 <Link
-                  to="https://www.facebook.com/profile.php?id=10001234567890"
+                  to="https://www.facebook.com/phu.tuila.50/"
                   target="_blank"
                   className="flex items-center gap-2 hover:text-pastel-pink transition-all duration-300"
                 >
@@ -69,7 +69,7 @@ const About = () => {
                   <span>Instagram</span>
                 </div>
                 <Link
-                  to="https://www.instagram.com/profile.php?id=10001234567890"
+                  to="https://www.instagram.com/thien_phuuuuu/"
                   target="_blank"
                   className="flex items-center gap-2 hover:text-pastel-pink transition-all duration-300"
                 >
@@ -83,7 +83,7 @@ const About = () => {
                   <span>Phone</span>
                 </div>
                 <Link
-                  to="tel:0333333333"
+                  to="tel:0964870561"
                   target="_blank"
                   className="flex items-center gap-2 hover:text-pastel-pink transition-all duration-300"
                 >
