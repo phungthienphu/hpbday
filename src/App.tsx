@@ -174,7 +174,7 @@ function AppContent() {
       {isMonsterVisible && <MonsterUnified />}
 
       {/* Tutorial Hint */}
-      {showTutorial && isMonsterVisible && (
+      {/* {showTutorial && isMonsterVisible && (
         <div className="fixed top-24 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in">
           <div className="bg-gradient-to-r from-orange-400 to-amber-500 text-white px-6 py-3 rounded-2xl shadow-xl">
             <p className="text-sm font-semibold flex items-center gap-2">
@@ -184,7 +184,7 @@ function AppContent() {
             </p>
           </div>
         </div>
-      )}
+      )} */}
 
       {/* Login Modal */}
       <LoginModal

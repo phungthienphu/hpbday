@@ -61,6 +61,7 @@ const initialState: MemoryState = {
       message:
         "Em có biết anh thần tượng em kinh khủng không? Với anh anh chưa bao giờ nghĩ mình có thể có dược một cô người yêu đáng iu, chăm chỉ, xinh xắn như em. Anh trân trọng em lắm lắm. Vì thế, em đừng có tự giữ nỗi buồn 1 mình, hãy để cho fan hâm mộ của em là anh được đón nỗi buồn đó cùng em. Anh yêu em, và anh mong em sẽ luôn luôn vui vẻ, hãy thật yêu đời em nhé",
       emoji: "⭐",
+      url:"/mp3/anca.mp3",
       date: "10/12/2025",
     },
     {
