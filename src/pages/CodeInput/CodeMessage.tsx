@@ -35,8 +35,7 @@ const CodeMessage = ({
 
           {/* Main title - serif bold */}
           <h2 className="text-xl md:text-2xl lg:text-3xl font-serif font-bold text-[#2C2C2C] mb tracking-tight pb-2">
-            THÔNG ĐIỆP <br />
-            CHO EM
+            THÔNG ĐIỆP <br />CHO EM
           </h2>
 
           {/* Decorative line with dip */}

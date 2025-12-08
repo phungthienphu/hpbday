@@ -18,7 +18,8 @@ interface MemoryState {
 
 const initialState: MemoryState = {
   codeMessages: [
-    {//2
+    {
+      //2
       code: "THUTRANG1509",
       messagemain: "Chúc bạn may mắn lần sau!",
       messagesub:
@@ -50,18 +51,19 @@ const initialState: MemoryState = {
     {//4
       code: "DREAM",
       message:
+        "Em có biết anh thần tượng em kinh khủng không? Với anh anh chưa bao giờ nghĩ mình có thể có dược một cô người yêu đáng iu, chăm chỉ, xinh xắn như em. Anh trân trọng em lắm lắm. Vì thế, em đừng có tự giữ nỗi buồn 1 mình, hãy để cho fan hâm mộ của em là anh được đón nỗi buồn đó cùng em. Anh yêu em, và anh mong em sẽ luôn luôn vui vẻ, hãy thật yêu đời em nhé",
+      emoji: "⭐",
+      url: "/mp3/anca.mp3",
+      date: "7/12/2025",
+    },
+    {
+      //3
+      code: "STAR",
+      message:
         "Đứa nào bắt nạt em, em nói anh nghe. Anh cũng hơi bị ghê gớm đấy khum kém gì bé đâu. Đụng vào anh thì đượt, đụng vào ngiu anh thì chếc với anhh. Êu mà nhỡ đó là anh thì sao nhở :v",
       messagesub:
         "Chắc anh phạt mình tu 1 tháng, mua cho em nhiều trà sữa, nhiều mì cayy... em thấy có được khômmm",
       emoji: "🌈",
-      date: "7/12/2025",
-    },
-    {//3
-      code: "STAR",
-      message:
-        "Em có biết anh thần tượng em kinh khủng không? Với anh anh chưa bao giờ nghĩ mình có thể có dược một cô người yêu đáng iu, chăm chỉ, xinh xắn như em. Anh trân trọng em lắm lắm. Vì thế, em đừng có tự giữ nỗi buồn 1 mình, hãy để cho fan hâm mộ của em là anh được đón nỗi buồn đó cùng em. Anh yêu em, và anh mong em sẽ luôn luôn vui vẻ, hãy thật yêu đời em nhé",
-      emoji: "⭐",
-      url:"/mp3/anca.mp3",
       date: "10/12/2025",
     },
     {
@@ -73,7 +75,8 @@ Dù mai sau có ra sao, anh vẫn mong chúng mình sẽ luôn ở bên nhau. C�
       url: "/mp3/tyca.mp3",
       date: "9/01/2026",
     },
-    {//1
+    {
+      //1
       code: "BABE",
       message:
         "Anh yêu em, anh yêu em, anh yêu em, cái gì quan trọng phải nói 3 lần!",
@@ -102,7 +105,11 @@ const memorySlice = createSlice({
       const now = new Date();
       if (message) {
         if (message.date && noteDate > now) {
-          throw new Error("Bức thư này chưa tới ngày được xem nhaa!"+ " Ngày được xem: " + message.date);
+          throw new Error(
+            "Bức thư này chưa tới ngày được xem nhaa!" +
+              " Ngày được xem: " +
+              message.date
+          );
         } else {
           state.unlockedMessage = message;
         }
