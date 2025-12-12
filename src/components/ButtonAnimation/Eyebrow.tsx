@@ -10,7 +10,7 @@ interface EyebrowProps {
 const Eyebrow = ({ position, isExcited = false }: EyebrowProps) => {
   return (
     <div
-      className="absolute w-12 h-1.5 bg-gray-800/80 rounded-full transition-all duration-300"
+      className="absolute w-11 h-2 bg-[#f7d643] rounded-full transition-all duration-300"
       style={{
         ...position,
         transform: isExcited 

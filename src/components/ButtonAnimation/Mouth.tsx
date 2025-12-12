@@ -28,7 +28,7 @@ const Mouth = ({ isOpen, openLevel = 0 }: MouthProps) => {
 
   return (
     <div
-      className="absolute left-1/2 transform -translate-x-1/2 transition-all duration-300"
+      className="absolute border-[5px] border-[#fa80725f] rounded-full left-1/2 transform -translate-x-1/2 transition-all duration-300"
       style={{
         bottom: `${bottomPosition}px`,
         width: `${mouthWidth}px`,

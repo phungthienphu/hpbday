@@ -195,10 +195,11 @@ const FaceAnimal = ({
       >
         {/* Face Background */}
         <div
-          className={`absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full shadow-2xl transition-all duration-300 ${
+          className={`absolute inset-0 bg-gradient-to-br from-[#FCF4A3] to-[#FDEE87] rounded-full shadow-2xl transition-all duration-300 ${
             isEating ? "animate-pulse" : ""
           }`}
-        ></div>
+        >
+        </div>
 
         {/* Eyebrows - lườm khi bình thường, nâng lên khi excited */}
         <Eyebrow
@@ -213,15 +214,16 @@ const FaceAnimal = ({
         {/* Eyes */}
         <Eye
           size="big"
-          position={{ left: "10px", top: "35px" }}
+          position={{ left: "20px", top: "35px" }}
           pupilOffset={pupilPositions.left}
         />
         <Eye
           size="small"
-          position={{ right: "10px", top: "40px" }}
+          position={{ right: "15px", top: "40px" }}
           pupilOffset={pupilPositions.right}
         />
 
+        
         {/* Mouth - há rộng dần khi bánh đến gần */}
         <Mouth
           isOpen={isHovered || mouthOpenLevel > 0.5}

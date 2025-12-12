@@ -12,14 +12,14 @@ interface EyeProps {
 }
 
 const Eye = ({ size, position, pupilOffset }: EyeProps) => {
-  const eyeSize = size === 'big' ? 'w-16 h-16' : 'w-16 h-16';
-  const pupilSize = size === 'big' ? 'w-8 h-8' : 'w-8 h-8';
-  const reflectionSize = size === 'big' ? 'w-3 h-3' : 'w-2.5 h-2.5';
-  const reflectionPos = size === 'big' ? 'top-2 left-2' : 'top-1.5 left-1.5';
+  const eyeSize = size === 'big' ? 'w-14 h-14' : 'w-14 h-14';
+  const pupilSize = size === 'big' ? 'w-6 h-6' : 'w-6 h-6';
+  // const reflectionSize = size === 'big' ? 'w-3 h-3' : 'w-2.5 h-2.5';
+  // const reflectionPos = size === 'big' ? 'top-2 left-2' : 'top-1.5 left-1.5';
 
   return (
     <div
-      className={`absolute ${eyeSize} bg-white rounded-full shadow-lg`}
+      className={`absolute ${eyeSize} bg-white border border-black rounded-full shadow-lg`}
       style={position}
     >
       {/* Pupil */}
@@ -33,9 +33,9 @@ const Eye = ({ size, position, pupilOffset }: EyeProps) => {
         }}
       >
         {/* Light reflection */}
-        <div
+        {/* <div
           className={`absolute ${reflectionSize} bg-white rounded-full ${reflectionPos} opacity-90`}
-        ></div>
+        ></div> */}
       </div>
     </div>
   );

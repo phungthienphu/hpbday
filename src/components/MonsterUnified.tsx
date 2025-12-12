@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import Eye from './ButtonAnimation/Eye';
-import Mouth from './ButtonAnimation/Mouth';
-import Eyebrow from './ButtonAnimation/Eyebrow';
-import SpeechBubble from './ButtonAnimation/SpeechBubble';
-import { useMonster } from '../contexts/MonsterContext';
+import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
+import Eye from "./ButtonAnimation/Eye";
+import Mouth from "./ButtonAnimation/Mouth";
+import Eyebrow from "./ButtonAnimation/Eyebrow";
+import SpeechBubble from "./ButtonAnimation/SpeechBubble";
+import { useMonster } from "../contexts/MonsterContext";
 
 // Helper function
 const calculatePupilPosition = (
@@ -38,11 +38,11 @@ const calculatePupilPosition = (
 };
 
 const MonsterUnified = () => {
-  const { 
-    updateMonsterPosition, 
-    distanceToMonster, 
-    isMonsterEating, 
-    isDraggingFood 
+  const {
+    updateMonsterPosition,
+    distanceToMonster,
+    isMonsterEating,
+    isDraggingFood,
   } = useMonster();
 
   const [isHovered, setIsHovered] = useState(false);
@@ -85,10 +85,10 @@ const MonsterUnified = () => {
       });
     };
 
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener("mousemove", handleMouseMove);
       if (rafRef.current) {
         cancelAnimationFrame(rafRef.current);
       }
@@ -157,9 +157,9 @@ const MonsterUnified = () => {
     distanceToMonster < 300 ? Math.min(1, (300 - distanceToMonster) / 220) : 0;
 
   const getMessage = () => {
-    if (isMonsterEating) return 'Ngon! 😋';
-    if (mouthOpenLevel > 0.5) return 'Gần rồi! 🤤';
-    return 'Đói quá... 😢';
+    if (isMonsterEating) return "Ngon! 😋";
+    if (mouthOpenLevel > 0.5) return "Gần rồi! 🤤";
+    return "Đói quá... 😢";
   };
 
   return (
@@ -170,10 +170,10 @@ const MonsterUnified = () => {
       dragElastic={0}
       className="fixed z-40"
       initial={{
-        left: '50%',
-        top: '30%',
-        x: '-50%',
-        y: '-50%',
+        left: "50%",
+        top: "30%",
+        x: "-50%",
+        y: "-50%",
       }}
       whileHover={{ scale: 1.1 }}
       whileDrag={{ scale: 1.05 }}
@@ -183,44 +183,48 @@ const MonsterUnified = () => {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         className={`relative transition-all duration-300 cursor-grab ${
-          isMonsterEating ? 'scale-125' : ''
+          isMonsterEating ? "scale-125" : ""
         }`}
         style={{
-          width: '150px',
-          height: '150px',
-          userSelect: 'none',
-          WebkitUserSelect: 'none',
+          width: "150px",
+          height: "150px",
+          userSelect: "none",
+          WebkitUserSelect: "none",
         }}
       >
         {/* Face Background */}
         <div
-          className={`absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full shadow-2xl transition-all duration-300 ${
-            isMonsterEating ? 'animate-pulse' : ''
+          className={`absolute inset-0 bg-gradient-to-br from-[#FCF4A3] to-[#FDEE87] rounded-full shadow-2xl transition-all duration-300 ${
+            isMonsterEating ? "animate-pulse" : ""
           }`}
         ></div>
 
         {/* Eyebrows */}
         <Eyebrow
-          position={{ left: '8px', top: '28px' }}
+          position={{ left: "16px", top: "28px" }}
           isExcited={isDraggingFood || mouthOpenLevel > 0}
         />
         <Eyebrow
-          position={{ right: '8px', top: '33px' }}
+          position={{ right: "10px", top: "33px" }}
           isExcited={isDraggingFood || mouthOpenLevel > 0}
         />
 
         {/* Eyes */}
         <Eye
           size="big"
-          position={{ left: '10px', top: '35px' }}
+          position={{ left: "15px", top: "35px" }}
           pupilOffset={pupilPositions.left}
         />
         <Eye
           size="small"
-          position={{ right: '10px', top: '40px' }}
+          position={{ right: "15px", top: "40px" }}
           pupilOffset={pupilPositions.right}
         />
+        {/* <div className="absolute block right-1/2 transform translate-x-1/2 top-0 w-12 h-3 bg-[#72c8fa] rounded-full"></div> */}
+        {/* <div className="absolute block right-1/2 transform translate-x- top-0 w-12 h-3 bg-[#72c8fa] rounded-full"></div> */}
 
+        <div className="absolute block left-2 bottom-[50px] w-4 h-4 bg-[#fa80725f] rounded-full"></div>
+        <div className="absolute block right-2 bottom-[50px] w-4 h-4 bg-[#fa80725f] rounded-full"></div>
         {/* Mouth */}
         <Mouth
           isOpen={isHovered || mouthOpenLevel > 0.5}
@@ -259,4 +263,3 @@ const MonsterUnified = () => {
 };
 
 export default MonsterUnified;
-
