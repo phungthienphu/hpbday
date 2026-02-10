@@ -87,15 +87,16 @@ const Header = ({
             <span className={`text-sm md:text-base lg:text-base ${currentPath === "/about" ? "font-bold" : ""}`}>🎂About</span>
           </DraggableNavItem>
           <DraggableNavItem
-            itemId="event-page"
-            to="/event-page"
-            onPositionChange={(x, y) => onNavItemPositionChange("event-page", x, y)}
-            onDragStart={() => onNavItemDragStart("event-page")}
-            onDragEnd={(hasMoved) => onNavItemDragEnd("event-page", hasMoved)}
+            itemId="start-game"
+            to="/start-game"
+            onPositionChange={(x, y) => onNavItemPositionChange("start-game", x, y)}
+            onDragStart={() => onNavItemDragStart("start-game")}
+            onDragEnd={(hasMoved) => onNavItemDragEnd("start-game", hasMoved)}
             shouldReset={shouldResetItems}
             className="text-gray-800 hover:text-gray-900 transition-all duration-200"
+            moveGame
           >
-            <span className={`text-sm md:text-base lg:text-base ${currentPath === "/event-page" ? "font-bold" : ""}`}>❤️ Valentine</span>
+            <span className={`text-sm md:text-base lg:text-base ${currentPath === "/start-game" ? "font-bold" : ""}`}>❤️ Valentine</span>
           </DraggableNavItem>
 
           {isAuthenticated ? (

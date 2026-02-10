@@ -4,10 +4,13 @@ import { useState } from "react";
 import { story } from "../../types/story";
 import { badEnd } from "../../types/story";
 import CodeMessage from "./CodeMessage";
+import { useDispatch } from "react-redux";
+import { playBgm } from "../../store/audioSlice";
 
 export default function EventPage() {
     const [sceneId, setSceneId] = useState(0);
     const [status, setStatus] = useState(1);
+    const dispatch = useDispatch();
     const [isOpen, setIsopen] = useState(false);
     // const [affection, setAffection] = useState(0);
 
@@ -17,18 +20,25 @@ export default function EventPage() {
 
     // Scene kết thúc
     if (status < 0) {
+        if (status === -1) {
+            dispatch(playBgm("/audiogame/badend1.mp3"));
+        }
+        else {
+            dispatch(playBgm("/audiogame/losesound.mp3"));
+
+        }
         const badEndingIndex = -status - 1;
         const badEnding = badEnd[badEndingIndex] || badEnd[0];
 
         const handleRestart = () => {
             setSceneId(0);
+            dispatch(playBgm("/audiogame/ingame.mp3"));
             setStatus(1);
             // setAffection(0);
         };
         const handleRetryLast = () => {
             setSceneId((prev) => (prev > 0 ? prev - 1 : 0));
-            // hoàn tác điểm của lựa chọn vừa rồi (status chính là affection của lựa chọn đó)
-            // setAffection((prev) => prev - status);
+            dispatch(playBgm("/audiogame/ingame.mp3"));
             setStatus(1);
         };
         return (
@@ -80,6 +90,10 @@ export default function EventPage() {
 
     const handleChoice = (choice: any) => {
         console.log(choice);
+        if (choice.next === 'prevending') {
+            dispatch(playBgm("/audiogame/winner.mp3"));
+
+        }
         if (choice.next === 'ending') {
             if (choice.affection === 1) {
                 setIsopen(true)
