@@ -15,7 +15,7 @@ export type Scene = {
 export const story: Scene[] = [
   {
     id: "scene0",
-    background: "/valentine/opening.png",
+    background: "/valentine/opening.webp",
     speaker: "Người dẫn chuyện",
     dialogue:
       "Ngày xửa ngày xưa, có một bé Cua cute mới uncrush 1 anh zai nào đó <br/> Bé Cua được bạn bè rủ rê dùng ứng dụng hẹn hò...",
@@ -23,7 +23,7 @@ export const story: Scene[] = [
   },
   {
     id: "scene1",
-    background: "/valentine/opening2.png",
+    background: "/valentine/opening2.webp",
     speaker: "Người dẫn chuyện",
     dialogue:
       "Bé Cua đã gặp được khá nhiều EM trai đẹp zai. Tâm sự nhìu và rất vui vẻ...<br/>Đã rất gần tới ngày thành đôi, tuy nhiên bé vẫn cảm thấy thiếu thiếu gì đó...",
@@ -31,7 +31,7 @@ export const story: Scene[] = [
   },
   {
     id: "scene1",
-    background: "/valentine/branchout.png",
+    background: "/valentine/branchout.webp",
     speaker: "Người dẫn chuyện",
     dialogue:
       "Bé cua đã gặp được EM Khỉ, ngỡ như nhắn tin khá hợp nhau, khá cuốn 😒 <br/>Hãy giúp bé Cua lựa chọn",
@@ -39,7 +39,7 @@ export const story: Scene[] = [
   },
   {
     id: "scene1",
-    background: "/valentine/help1.png",
+    background: "/valentine/help1.webp",
     speaker: "Anh Lợn",
     dialogue:
       "Wow có một bạn lợn khá đẹp trai hơn muốn kết bạn với Cua.<br/>Hãy giúp bé Cua đưa ra lựa chọn:",
@@ -50,7 +50,7 @@ export const story: Scene[] = [
   },
   {
     id: "scene2",
-    background: "/valentine/step2.png",
+    background: "/valentine/step2.webp",
     speaker: "Anh Lợn và bé Cua",
     dialogue:
       "2 Bạn nhỏ nhắn tin với nhau rất vui vẻ, có vẻ như bạn Cua đã tìm được chân ái :D",
@@ -58,7 +58,7 @@ export const story: Scene[] = [
   },
   {
     id: "scene2",
-    background: "/valentine/help2.png",
+    background: "/valentine/help2.webp",
     speaker: "Bé Cua",
     dialogue:
       "Bạn Lợn ngoài đẹp trai ra còn hát rất hay, giọng hát đã khiến bạn Cua siêu lòngg.<br/>Bài hát đầu tiên bạn Lợn hát cho Cua nghe là gì nhỉ?",
@@ -71,7 +71,7 @@ export const story: Scene[] = [
 
   {
     id: "scene3",
-    background: "/valentine/step3.png",
+    background: "/valentine/step3.webp",
     speaker: "Anh Lợn",
     dialogue:
       "Bạn Lợn rất thích ngắm bạn Cua, đã nhiều lần muốn bạn Cua gửi ảnh cho xiem.<br/>Bức ảnh đầu tiên bạn Cua checkin cho bạn Lợn là khi bạn Cua đi đâu vậy?",
@@ -84,7 +84,7 @@ export const story: Scene[] = [
 
   {
     id: "scene4",
-    background: "/valentine/help4.png",
+    background: "/valentine/help4.webp",
     speaker: "Anh Lợn",
     dialogue:
       "Sau vài tuần nói chuyện, 2 bạn rất chịu nhau rùi tuy nhiên vẫn còn thiếu bước gặp nhau.<br/>Bạn Lợn đã đề nghị gặp bạn Cua, hãy giúp Cua đưa ra lựa chọn:",
@@ -95,7 +95,7 @@ export const story: Scene[] = [
   },
   {
     id: "scene5",
-    background: "/valentine/step4.png",
+    background: "/valentine/step4.webp",
     speaker: "",
     dialogue:
       "2 Bạn đã chuẩn bị có buổi gặp đầu tiên... Rất ngược đời là bạn Cua lại là người đi đón bạn Lợn béo...",
@@ -103,7 +103,7 @@ export const story: Scene[] = [
   },
   {
     id: "scene5",
-    background: "/valentine/help6.png",
+    background: "/valentine/help6.webp",
     speaker: "Anh Lợn và bé Cua",
     dialogue:
       "2 bạn đã gặp được nhau, cảm xúc thật dâng trào,<br/>Bạn có thấy Cua và Lợn rất đẹp đôi không??",
@@ -114,7 +114,7 @@ export const story: Scene[] = [
   },
   {
     id: "scene6",
-    background: "/valentine/winner.png",
+    background: "/valentine/winner.webp",
     speaker: "Bạn đã chiến thắng!!!",
     dialogue: "Vậy là bạn đã là người chiến thắng!!! Xin chúc mừng",
     choices: [
@@ -127,7 +127,7 @@ export const story: Scene[] = [
 export const badEnd = [
   {
     id: "badend1",
-    background: "/valentine/badend1.png",
+    background: "/valentine/badend1.webp",
     speaker: "BẠN ĐÃ THUAAA",
     dialogue:
       "Game over!! Cua thì sao mà hợp với Khỉ được trời -_-",
@@ -135,7 +135,7 @@ export const badEnd = [
   },
   {
     id: "badend2",
-    background: "/valentine/badend3.png",
+    background: "/valentine/badend3.webp",
     speaker: "Bạn đã thua!!!",
     dialogue:
       "Game over! Có thật là nghe ngta hát không đóo???",
@@ -143,14 +143,14 @@ export const badEnd = [
   },
   {
     id: "badend3",
-    background: "/valentine/badend2.png",
+    background: "/valentine/badend2.webp",
     speaker: "",
     dialogue:
       "Game over!! Có thế mà cũng quên, tí phải phạt thật mạnh 😠",
     choices: [{ text: "Chơi lại"}],
   },{
     id: "badend4",
-    background: "/valentine/badend2.png",
+    background: "/valentine/badend2.webp",
     speaker: "",
     dialogue:
       "Game over!! Chỗ nào không đẹp hả??? 😠",
@@ -158,7 +158,7 @@ export const badEnd = [
   },
   {
     id: "badend5",
-    background: "/valentine/badend2.png",
+    background: "/valentine/badend2.webp",
     speaker: "Bạn đã thua!!!",
     dialogue:
       "Game over! Thấy trai đẹp mà không accept là thua ròiii???",
