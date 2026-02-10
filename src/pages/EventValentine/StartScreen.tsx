@@ -15,7 +15,7 @@ export default function StartScreen() {
     return (
         <div
             className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-cover bg-center"
-            style={{ backgroundImage: "url('/valentine/bg-game.png')" }}
+            style={{ backgroundImage: "url('/valentine/bg-game.webp')" }}
         >
             {/* Overlay tối để chữ nổi bật (giống menu game) */}
             <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
