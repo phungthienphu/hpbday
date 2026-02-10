@@ -7,6 +7,7 @@ import { badEnd } from "../../types/story";
 import CodeMessage from "./CodeMessage";
 import { useDispatch } from "react-redux";
 import { playBgm } from "../../store/audioSlice";
+import { useNavigate } from "react-router-dom";
 
 const progressBarClasses =
     "w-full h-2.5 rounded-full overflow-hidden bg-white/20 backdrop-blur-sm border border-white/30 shadow-lg";
@@ -32,9 +33,9 @@ const GameButton = ({
         style={
             primary
                 ? {
-                      background: "linear-gradient(180deg, #fde047 0%, #f59e0b 50%, #d97706 100%)",
-                      boxShadow: "0 6px 0 #92400e, 0 8px 16px rgba(0,0,0,0.3)",
-                  }
+                    background: "linear-gradient(180deg, #fde047 0%, #f59e0b 50%, #d97706 100%)",
+                    boxShadow: "0 6px 0 #92400e, 0 8px 16px rgba(0,0,0,0.3)",
+                }
                 : undefined
         }
         whileHover={primary ? { scale: 1.03, boxShadow: "0 8px 0 #92400e, 0 12px 20px rgba(0,0,0,0.35)" } : { scale: 1.02 }}
@@ -49,7 +50,7 @@ export default function EventPage() {
     const [status, setStatus] = useState(1);
     const dispatch = useDispatch();
     const [isOpen, setIsopen] = useState(false);
-
+    const navigator = useNavigate()
     const totalScenes = story.length;
     const progress =
         totalScenes > 1 ? Math.min(100, (sceneId / (totalScenes - 1)) * 100) : 0;
@@ -135,6 +136,9 @@ export default function EventPage() {
     const handleChoiceBack = () => {
         setSceneId((prev) => (prev > 0 ? prev - 1 : 0));
     };
+    const handleChoiceQuit = () => {
+        navigator('/start-game')
+    }
 
     return (
         <div
@@ -150,6 +154,16 @@ export default function EventPage() {
                     />
                 </div>
             </div>
+            <motion.button
+                initial={{ opacity: 0, x: -8 }}
+                animate={{ opacity: 1, x: 0 }}
+                onClick={handleChoiceQuit}
+                className="absolute top-20 left-4 z-20 px-4 py-2 rounded-xl text-sm font-bold text-white border-2 border-white/40 bg-black/40 backdrop-blur-sm shadow-lg"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+            >
+                ← Thoát
+            </motion.button>
             {sceneId !== 0 && (
                 <motion.button
                     initial={{ opacity: 0, x: -8 }}
