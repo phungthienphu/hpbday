@@ -1,31 +1,64 @@
 "use client";
 
 import { useState } from "react";
-import { story } from "../../types/story";
+import { motion } from "framer-motion";
+import { story, type Choice } from "../../types/story";
 import { badEnd } from "../../types/story";
 import CodeMessage from "./CodeMessage";
 import { useDispatch } from "react-redux";
 import { playBgm } from "../../store/audioSlice";
+
+const progressBarClasses =
+    "w-full h-2.5 rounded-full overflow-hidden bg-white/20 backdrop-blur-sm border border-white/30 shadow-lg";
+const progressFillClasses =
+    "h-full rounded-full transition-all duration-300 bg-gradient-to-r from-pink-400 via-rose-500 to-pink-500 shadow-[0_0_12px_rgba(244,114,182,0.6)]";
+
+const GameButton = ({
+    children,
+    onClick,
+    primary = true,
+}: {
+    children: React.ReactNode;
+    onClick: () => void;
+    primary?: boolean;
+}) => (
+    <motion.button
+        onClick={onClick}
+        className={
+            primary
+                ? "w-full py-3.5 px-6 rounded-xl text-base font-bold text-gray-900 uppercase tracking-wide border-2 border-amber-200/80 shadow-lg"
+                : "w-full py-3 px-6 rounded-xl text-base font-bold text-white uppercase tracking-wide border-2 border-white/50 bg-white/15 backdrop-blur-sm"
+        }
+        style={
+            primary
+                ? {
+                      background: "linear-gradient(180deg, #fde047 0%, #f59e0b 50%, #d97706 100%)",
+                      boxShadow: "0 6px 0 #92400e, 0 8px 16px rgba(0,0,0,0.3)",
+                  }
+                : undefined
+        }
+        whileHover={primary ? { scale: 1.03, boxShadow: "0 8px 0 #92400e, 0 12px 20px rgba(0,0,0,0.35)" } : { scale: 1.02 }}
+        whileTap={primary ? { scale: 0.98, y: 2, boxShadow: "0 3px 0 #92400e" } : { scale: 0.98 }}
+    >
+        {children}
+    </motion.button>
+);
 
 export default function EventPage() {
     const [sceneId, setSceneId] = useState(0);
     const [status, setStatus] = useState(1);
     const dispatch = useDispatch();
     const [isOpen, setIsopen] = useState(false);
-    // const [affection, setAffection] = useState(0);
 
     const totalScenes = story.length;
     const progress =
         totalScenes > 1 ? Math.min(100, (sceneId / (totalScenes - 1)) * 100) : 0;
 
-    // Scene kết thúc
     if (status < 0) {
         if (status === -1) {
             dispatch(playBgm("/audiogame/badend1.mp3"));
-        }
-        else {
+        } else {
             dispatch(playBgm("/audiogame/losesound.mp3"));
-
         }
         const badEndingIndex = -status - 1;
         const badEnding = badEnd[badEndingIndex] || badEnd[0];
@@ -34,125 +67,137 @@ export default function EventPage() {
             setSceneId(0);
             dispatch(playBgm("/audiogame/ingame.mp3"));
             setStatus(1);
-            // setAffection(0);
         };
         const handleRetryLast = () => {
             setSceneId((prev) => (prev > 0 ? prev - 1 : 0));
             dispatch(playBgm("/audiogame/ingame.mp3"));
             setStatus(1);
         };
+
         return (
             <div
-                className="h-screen w-screen bg-cover bg-center flex flex-col justify-end relative"
+                className="h-screen w-screen bg-cover bg-center flex flex-col justify-end relative overflow-hidden"
                 style={{ backgroundImage: `url(${badEnding.background})` }}
             >
-                {/* Thanh tiến trình hành trình */}
-                <div className="absolute top-0 left-0 w-full px-4 pt-4">
-                    <div className="w-full h-2 bg-white/30 rounded-full overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/50 pointer-events-none" />
+                <div className="absolute top-0 left-0 w-full px-4 pt-6 z-10">
+                    <div className={progressBarClasses}>
                         <div
-                            className="h-full bg-pink-400 transition-all duration-300"
+                            className={progressFillClasses}
                             style={{ width: `${progress}%` }}
                         />
                     </div>
                 </div>
-                {/* Dialogue box */}
-                {/* {sceneId != 0 ? <button onClick={handleChoiceBack} className="absolute top-4 left-1 px-3 py-1 bg-white rounded">Go back</button>
-                    : <></>
-                } */}
-                <div style={{ backgroundImage: `url(${badEnding.background})` }} className="w-full h-full bg-cover bg-center">
-
-                </div>
-                <div className="bg-black/70 text-white p-6 rounded-sm">
-                    <p className="font-bold mb-2">{badEnding.speaker}</p>
-                    <p className="mb-4 " dangerouslySetInnerHTML={{ __html: badEnding.dialogue }} />
-
-                    {/* Choices */}
-                    <div className="flex flex-col gap-2">
-                        <button
-                            className="bg-white text-black px-4 py-2 rounded hover:bg-gray-200"
-                            onClick={handleRetryLast}
-                        >
+                <div
+                    className="flex-1 bg-cover bg-center"
+                    style={{ backgroundImage: `url(${badEnding.background})` }}
+                />
+                <motion.div
+                    initial={{ y: 24, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.35 }}
+                    className="relative z-10 mx-4 mb-4 p-5 sm:p-6 rounded-2xl border-2 border-white/30 bg-black/60 backdrop-blur-md text-white shadow-2xl"
+                >
+                    <p className="text-sm font-bold text-rose-200 mb-1 uppercase tracking-wider">
+                        {badEnding.speaker}
+                    </p>
+                    <p
+                        className="mb-5 text-white/95 leading-relaxed"
+                        dangerouslySetInnerHTML={{ __html: badEnding.dialogue }}
+                    />
+                    <div className="flex flex-col gap-3">
+                        <GameButton primary onClick={handleRetryLast}>
                             Chơi lại
-                        </button>
-                        <button
-                            className="bg-white text-black px-4 py-2 rounded hover:bg-gray-200"
-                            onClick={handleRestart}
-                        >
+                        </GameButton>
+                        <GameButton primary onClick={handleRestart}>
                             Chơi lại từ đầu
-                        </button>
+                        </GameButton>
                     </div>
-                </div>
+                </motion.div>
             </div>
         );
     }
 
     const scene = story[sceneId];
 
-    const handleChoice = (choice: any) => {
-        console.log(choice);
-        if (choice.next === 'prevending') {
+    const handleChoice = (choice: Choice) => {
+        if (choice.next === "prevending") {
             dispatch(playBgm("/audiogame/winner.mp3"));
-
         }
-        if (choice.next === 'ending') {
-            if (choice.affection === 1) {
-                setIsopen(true)
-            }
+        if (choice.next === "ending") {
+            if (choice.affection === 1) setIsopen(true);
             setSceneId(0);
         }
         setStatus(choice.affection);
         setSceneId((prev) => prev + 1);
-
-        // status: trạng thái lựa chọn hiện tại (dùng để check "chết ngay")
-        // affection: tổng điểm tình cảm tích lũy
-        // setAffection((prev) => prev + choice.affection);
     };
+
     const handleChoiceBack = () => {
-        setSceneId(sceneId - 1)
-    }
+        setSceneId((prev) => (prev > 0 ? prev - 1 : 0));
+    };
 
     return (
         <div
-            className="h-screen w-screen bg-cover bg-center flex flex-col justify-end relative"
+            className="h-screen w-screen bg-cover bg-center flex flex-col justify-end relative overflow-hidden"
             style={{ backgroundImage: `url(${scene.background})` }}
         >
-            {/* Thanh tiến trình hành trình */}
-            <div className="absolute top-0 left-0 w-full px-4 pt-4">
-                <div className="w-full h-2 bg-white/30 rounded-full overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-transparent to-black/50 pointer-events-none" />
+            <div className="absolute top-0 left-0 w-full px-4 pt-6 z-10">
+                <div className={progressBarClasses}>
                     <div
-                        className="h-full bg-pink-400 transition-all duration-300"
+                        className={progressFillClasses}
                         style={{ width: `${progress}%` }}
                     />
                 </div>
             </div>
-            {/* Dialogue box */}
-            {sceneId != 0 ? <button onClick={handleChoiceBack} className="absolute top-8 left-4 px-3 py-1 bg-white rounded">Go back</button>
-                : <></>
-            }
-            <div style={{ backgroundImage: `url(${scene.background})` }} className="w-full h-full bg-cover bg-center">
-
-            </div>
-            <div className="bg-black/70 text-white p-6 rounded-sm">
-                <p className="font-bold mb-2">{scene.speaker}</p>
-                <p className="mb-4 " dangerouslySetInnerHTML={{ __html: scene.dialogue }} />
-
-                {/* Choices */}
-                <div className="flex flex-col gap-2">
+            {sceneId !== 0 && (
+                <motion.button
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    onClick={handleChoiceBack}
+                    className="absolute top-20 left-4 z-20 px-4 py-2 rounded-xl text-sm font-bold text-white border-2 border-white/40 bg-black/40 backdrop-blur-sm shadow-lg"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.98 }}
+                >
+                    ← Quay lại
+                </motion.button>
+            )}
+            <div
+                className="flex-1 bg-cover bg-center"
+                style={{ backgroundImage: `url(${scene.background})` }}
+            />
+            <motion.div
+                key={sceneId}
+                initial={{ y: 24, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                className="relative z-10 mx-4 mb-4 p-5 sm:p-6 rounded-2xl border-2 border-white/30 bg-black/55 backdrop-blur-md text-white shadow-2xl"
+            >
+                <p className="text-sm font-bold text-rose-200 mb-2 uppercase tracking-wider">
+                    {scene.speaker}
+                </p>
+                <p
+                    className="mb-5 text-white/95 leading-relaxed"
+                    dangerouslySetInnerHTML={{ __html: scene.dialogue }}
+                />
+                <div className="flex flex-col gap-3">
                     {scene.choices.map((choice, index) => (
-                        <button
+                        <GameButton
                             key={index}
-                            className="bg-white text-black px-4 py-2 rounded hover:bg-gray-200"
+                            primary
                             onClick={() => handleChoice(choice)}
                         >
                             {choice.text}
-                        </button>
+                        </GameButton>
                     ))}
                 </div>
-            </div>
-            {isOpen && <CodeMessage
-                onClose={() => setIsopen(false)}
-                unlockedMessage={message}
-            />}
+            </motion.div>
+            {isOpen && (
+                <CodeMessage
+                    onClose={() => setIsopen(false)}
+                    unlockedMessage={message}
+                />
+            )}
         </div>
     );
 }

@@ -128,7 +128,7 @@ export const badEnd = [
   {
     id: "badend1",
     background: "/valentine/badend1.png",
-    speaker: "",
+    speaker: "BẠN ĐÃ THUAAA",
     dialogue:
       "Game over!! Cua thì sao mà hợp với Khỉ được trời -_-",
     choices: [{ text: "Chơi lại"}],

@@ -35,7 +35,7 @@ function AppContent() {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [shouldResetItems, setShouldResetItems] = useState(false);
   const { showTutorial, hideTutorial } = useTutorial();
-  const hasEventPage = window.location.pathname === '/event-page';
+  const hasEventPage = window.location.pathname === '/event-page'||window.location.pathname === '/start-game';
 
 
 
