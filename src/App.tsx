@@ -18,6 +18,8 @@ import Snowfall from 'react-snowfall'
 import LoadingComponent from './components/loading/index.';
 import Notification from './components/Notification';
 import EventPage from './pages/EventValentine';
+import StartScreen from './pages/EventValentine/StartScreen';
+import AudioProvider from './components/AudioProvider';
 
 
 // Map itemId to route
@@ -33,9 +35,9 @@ function AppContent() {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [shouldResetItems, setShouldResetItems] = useState(false);
   const { showTutorial, hideTutorial } = useTutorial();
-  const hasEventPage = window.location.pathname === '/event-page';
+  const hasEventPage = window.location.pathname === '/event-page'||window.location.pathname === '/start-game';
 
-  
+
 
   const {
     updateNavItemPosition,
@@ -172,6 +174,19 @@ function AppContent() {
             }
           />
           <Route
+            path="/start-game"
+            element={
+              // <PageShell
+              //   onNavItemDragStart={handleNavItemDragStart}
+              //   onNavItemDragEnd={handleNavItemDragEnd}
+              //   onNavItemPositionChange={handleNavItemPositionChange}
+              //   shouldResetItems={shouldResetItems}
+              // >
+              <StartScreen />
+              // </PageShell>
+            }
+          />
+          <Route
             path="/event-page"
             element={
               // <PageShell
@@ -226,12 +241,14 @@ function AppContent() {
 function App() {
   return (
     <Provider store={store}>
-      <Router>
-        <MonsterProvider>
-          <LoadingComponent />
-          <AppContent />
-        </MonsterProvider>
-      </Router>
+      <AudioProvider>
+        <Router>
+          <MonsterProvider>
+            <LoadingComponent />
+            <AppContent />
+          </MonsterProvider>
+        </Router>
+      </AudioProvider>
     </Provider>
   );
 }

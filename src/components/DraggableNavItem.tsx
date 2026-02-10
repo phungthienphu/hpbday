@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, useMotionValue } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { playBgm } from '../store/audioSlice';
 
 interface DraggableNavItemProps {
   itemId: string;
@@ -12,6 +14,7 @@ interface DraggableNavItemProps {
   onInitialPosition?: (itemId: string, x: number, y: number) => void;
   shouldReset?: boolean;
   className?: string;
+  moveGame?: boolean
 }
 
 const DraggableNavItem = ({
@@ -24,13 +27,15 @@ const DraggableNavItem = ({
   onInitialPosition,
   shouldReset = false,
   className = '',
+  moveGame = false
 }: DraggableNavItemProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const [hasMoved, setHasMoved] = useState(false);
   const [initialPos, setInitialPos] = useState<{ x: number; y: number } | null>(null);
   const itemRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  
+  const dispatch = useDispatch();
+
   // Motion values for smooth reset animation
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -54,7 +59,7 @@ const DraggableNavItem = ({
       // Disable drag temporarily
       setTimeout(() => setIsDragging(false), 100);
       setTimeout(() => setHasMoved(false), 100);
-      
+
       // Animate về vị trí ban đầu (0, 0) với spring animation
       x.set(0);
       y.set(0);
@@ -80,7 +85,7 @@ const DraggableNavItem = ({
 
     dragRafRef.current = requestAnimationFrame(() => {
       if (!itemRef.current) return;
-      
+
       const rect = itemRef.current.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
@@ -92,13 +97,14 @@ const DraggableNavItem = ({
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    
+
     // Nếu đã drag thì không navigate
     if (hasMoved) {
       return;
     }
-    
-    // Không drag → navigate bình thường (fallback UX)
+    if (moveGame) {
+      dispatch(playBgm("/audiogame/start.mp3"));
+    }
     navigate(to);
   };
 
@@ -124,7 +130,7 @@ const DraggableNavItem = ({
           cancelAnimationFrame(dragRafRef.current);
           dragRafRef.current = null;
         }
-        
+
         setIsDragging(false);
         onDragEnd(hasMoved);
         setTimeout(() => setHasMoved(false), 300);

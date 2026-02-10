@@ -16,7 +16,7 @@ export const story: Scene[] = [
   {
     id: "scene0",
     background: "/valentine/opening.png",
-    speaker: "Cô ấy",
+    speaker: "Người dẫn chuyện",
     dialogue:
       "Ngày xửa ngày xưa, có một bé Cua cute mới uncrush 1 anh zai nào đó <br/> Bé Cua được bạn bè rủ rê dùng ứng dụng hẹn hò...",
     choices: [{ text: "Tiếp tục", affection: 1, next: "scene1" }],
@@ -24,7 +24,7 @@ export const story: Scene[] = [
   {
     id: "scene1",
     background: "/valentine/opening2.png",
-    speaker: "Cô ấy",
+    speaker: "Người dẫn chuyện",
     dialogue:
       "Bé Cua đã gặp được khá nhiều EM trai đẹp zai. Tâm sự nhìu và rất vui vẻ...<br/>Đã rất gần tới ngày thành đôi, tuy nhiên bé vẫn cảm thấy thiếu thiếu gì đó...",
     choices: [{ text: "Tiếp tục", affection: 1, next: "scene2" }],
@@ -32,7 +32,7 @@ export const story: Scene[] = [
   {
     id: "scene1",
     background: "/valentine/branchout.png",
-    speaker: "Cô ấy",
+    speaker: "Người dẫn chuyện",
     dialogue:
       "Bé cua đã gặp được EM Khỉ, ngỡ như nhắn tin khá hợp nhau, khá cuốn 😒 <br/>Hãy giúp bé Cua lựa chọn",
     choices: [{ text: "Gặp bé Khỉ", affection: -1, next: "scene2" },{ text: "Không gặp bé Khỉ", affection: 0, next: "scene2" }],
@@ -40,7 +40,7 @@ export const story: Scene[] = [
   {
     id: "scene1",
     background: "/valentine/help1.png",
-    speaker: "Cô ấy",
+    speaker: "Anh Lợn",
     dialogue:
       "Wow có một bạn lợn khá đẹp trai hơn muốn kết bạn với Cua.<br/>Hãy giúp bé Cua đưa ra lựa chọn:",
     choices: [
@@ -51,7 +51,7 @@ export const story: Scene[] = [
   {
     id: "scene2",
     background: "/valentine/step2.png",
-    speaker: "",
+    speaker: "Anh Lợn và bé Cua",
     dialogue:
       "2 Bạn nhỏ nhắn tin với nhau rất vui vẻ, có vẻ như bạn Cua đã tìm được chân ái :D",
     choices: [{ text: "Tiếp tục", affection: 1, next: "scene2" }],
@@ -59,7 +59,7 @@ export const story: Scene[] = [
   {
     id: "scene2",
     background: "/valentine/help2.png",
-    speaker: "Cô ấy",
+    speaker: "Bé Cua",
     dialogue:
       "Bạn Lợn ngoài đẹp trai ra còn hát rất hay, giọng hát đã khiến bạn Cua siêu lòngg.<br/>Bài hát đầu tiên bạn Lợn hát cho Cua nghe là gì nhỉ?",
     choices: [
@@ -72,7 +72,7 @@ export const story: Scene[] = [
   {
     id: "scene3",
     background: "/valentine/step3.png",
-    speaker: "Bạn",
+    speaker: "Anh Lợn",
     dialogue:
       "Bạn Lợn rất thích ngắm bạn Cua, đã nhiều lần muốn bạn Cua gửi ảnh cho xiem.<br/>Bức ảnh đầu tiên bạn Cua checkin cho bạn Lợn là khi bạn Cua đi đâu vậy?",
     choices: [
@@ -85,7 +85,7 @@ export const story: Scene[] = [
   {
     id: "scene4",
     background: "/valentine/help4.png",
-    speaker: "Cô ấy",
+    speaker: "Anh Lợn",
     dialogue:
       "Sau vài tuần nói chuyện, 2 bạn rất chịu nhau rùi tuy nhiên vẫn còn thiếu bước gặp nhau.<br/>Bạn Lợn đã đề nghị gặp bạn Cua, hãy giúp Cua đưa ra lựa chọn:",
     choices: [
@@ -96,7 +96,7 @@ export const story: Scene[] = [
   {
     id: "scene5",
     background: "/valentine/step4.png",
-    speaker: "Bạn",
+    speaker: "",
     dialogue:
       "2 Bạn đã chuẩn bị có buổi gặp đầu tiên... Rất ngược đời là bạn Cua lại là người đi đón bạn Lợn béo...",
     choices: [{ text: "Tiếp tục", affection: 1, next: "scene6" }],
@@ -104,12 +104,12 @@ export const story: Scene[] = [
   {
     id: "scene5",
     background: "/valentine/help6.png",
-    speaker: "Bạn",
+    speaker: "Anh Lợn và bé Cua",
     dialogue:
       "2 bạn đã gặp được nhau, cảm xúc thật dâng trào,<br/>Bạn có thấy Cua và Lợn rất đẹp đôi không??",
     choices: [
-      { text: "Đẹp quáa", affection: 1, next: "scene6" },
-      { text: "Chả đẹpp", affection: -4, next: "scene6" },
+      { text: "Đẹp quáa", affection: 1, next: "prevending" },
+      { text: "Chả đẹpp", affection: -4, next: "" },
     ],
   },
   {
@@ -128,7 +128,7 @@ export const badEnd = [
   {
     id: "badend1",
     background: "/valentine/badend1.png",
-    speaker: "",
+    speaker: "BẠN ĐÃ THUAAA",
     dialogue:
       "Game over!! Cua thì sao mà hợp với Khỉ được trời -_-",
     choices: [{ text: "Chơi lại"}],
