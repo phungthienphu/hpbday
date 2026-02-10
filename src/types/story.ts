@@ -26,7 +26,7 @@ export const story: Scene[] = [
     background: "/valentine/opening2.webp",
     speaker: "Người dẫn chuyện",
     dialogue:
-      "Bé Cua đã gặp được khá nhiều EM trai đẹp zai. Tâm sự nhìu và rất vui vẻ...<br/>Đã rất gần tới ngày thành đôi, tuy nhiên bé vẫn cảm thấy thiếu thiếu gì đó...",
+      "Bé Cua đã gặp được khá nhiều EM trai đẹp zai. Tâm sự nhìu và rất vui vẻ...<br/>Ngỡ như đã có thể thành đôi, tuy nhiên bé vẫn cảm thấy thiếu thiếu gì đó...",
     choices: [{ text: "Tiếp tục", affection: 1, next: "scene2" }],
   },
   {
@@ -34,7 +34,7 @@ export const story: Scene[] = [
     background: "/valentine/branchout.webp",
     speaker: "Người dẫn chuyện",
     dialogue:
-      "Bé cua đã gặp được EM Khỉ, ngỡ như nhắn tin khá hợp nhau, khá cuốn 😒 <br/>Hãy giúp bé Cua lựa chọn",
+      "Bé cua đã gặp được EM Khỉ, bé Cua thấy nhắn tin khá hợp nhau với Khỉ 😒, hai bé đã có lời hẹn gặp nhau <br/>Hãy giúp bé Cua lựa chọn",
     choices: [{ text: "Gặp bé Khỉ", affection: -1, next: "scene2" },{ text: "Không gặp bé Khỉ", affection: 0, next: "scene2" }],
   },
   {
@@ -42,7 +42,7 @@ export const story: Scene[] = [
     background: "/valentine/help1.webp",
     speaker: "Anh Lợn",
     dialogue:
-      "Wow có một bạn lợn khá đẹp trai hơn muốn kết bạn với Cua.<br/>Hãy giúp bé Cua đưa ra lựa chọn:",
+      "Wow, một ngày đẹp trời có một bạn lợn đẹp trai hơn muốn kết bạn với Cua.<br/>Hãy giúp bé Cua đưa ra lựa chọn:",
     choices: [
       { text: "Đồng ý kết bạn", affection: 1, next: "scene3" },
       { text: "Kệ nó", affection: -5, next: "scene3" },
@@ -53,7 +53,7 @@ export const story: Scene[] = [
     background: "/valentine/step2.webp",
     speaker: "Anh Lợn và bé Cua",
     dialogue:
-      "2 Bạn nhỏ nhắn tin với nhau rất vui vẻ, có vẻ như bạn Cua đã tìm được chân ái :D",
+      "2 Bạn nhỏ nhắn tin với nhau rất vui vẻ, có lẽ định mệnh đã dẫn lối cho 2 con tim gặp nhaoo <3",
     choices: [{ text: "Tiếp tục", affection: 1, next: "scene2" }],
   },
   {
@@ -87,7 +87,7 @@ export const story: Scene[] = [
     background: "/valentine/help4.webp",
     speaker: "Anh Lợn",
     dialogue:
-      "Sau vài tuần nói chuyện, 2 bạn rất chịu nhau rùi tuy nhiên vẫn còn thiếu bước gặp nhau.<br/>Bạn Lợn đã đề nghị gặp bạn Cua, hãy giúp Cua đưa ra lựa chọn:",
+      "Sau vài tuần nói chuyện, 2 bạn rất chịu nhau rùi tuy nhiên vẫn còn thiếu bước gặp nhau.<br/>Bạn Lợn đã đề nghị gặp bạn Cua, nhưng Lợn đẹp trai quá Cua sợ bị lừa, hãy giúp Cua đưa ra lựa chọn:",
     choices: [
       { text: "Oke gặp", affection: 2, next: "scene6" },
       { text: "Kệ nó", affection: -5, next: "scene6" },
