@@ -14,9 +14,10 @@ import MonsterUnified from './components/MonsterUnified';
 import { MonsterProvider } from './contexts/MonsterContext';
 import { useMonsterFeed } from './hooks/useMonsterFeed';
 import { useTutorial } from './hooks/useTutorial';
-import Snowfall from 'react-snowfall' 
+import Snowfall from 'react-snowfall'
 import LoadingComponent from './components/loading/index.';
 import Notification from './components/Notification';
+import EventPage from './pages/EventValentine';
 
 
 // Map itemId to route
@@ -32,6 +33,9 @@ function AppContent() {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [shouldResetItems, setShouldResetItems] = useState(false);
   const { showTutorial, hideTutorial } = useTutorial();
+  const hasEventPage = window.location.pathname === '/event-page';
+
+  
 
   const {
     updateNavItemPosition,
@@ -97,7 +101,7 @@ function AppContent() {
 
   return (
     <div className="min-h-screen  flex flex-col">
-          <Snowfall  style={{zIndex: 1000}}/>
+      <Snowfall style={{ zIndex: 1000 }} />
       <Notification />
 
       <main className="flex-1 flex items-center justify-center">
@@ -167,11 +171,24 @@ function AppContent() {
               </PageShell>
             }
           />
+          <Route
+            path="/event-page"
+            element={
+              // <PageShell
+              //   onNavItemDragStart={handleNavItemDragStart}
+              //   onNavItemDragEnd={handleNavItemDragEnd}
+              //   onNavItemPositionChange={handleNavItemPositionChange}
+              //   shouldResetItems={shouldResetItems}
+              // >
+              <EventPage />
+              // </PageShell>
+            }
+          />
         </Routes>
       </main>
 
       {/* Monster - 1 con duy nhất, luôn ở đây */}
-      {isMonsterVisible && <MonsterUnified />}
+      {isMonsterVisible && !hasEventPage && <MonsterUnified />}
 
       {/* Tutorial Hint */}
       {/* {showTutorial && isMonsterVisible && (
