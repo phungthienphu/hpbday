@@ -2,12 +2,14 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { playBgm } from "../../store/audioSlice";
 import { motion } from "framer-motion";
+import { playSfx } from "../../ultils/playSfx";
 
 export default function StartScreen() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const onStart = () => {
+        playSfx("/sound/click.mp3", 0.7);
         dispatch(playBgm("/audiogame/ingame.mp3"));
         navigate("/event-page");
     };

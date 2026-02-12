@@ -20,6 +20,7 @@ import Notification from './components/Notification';
 import EventPage from './pages/EventValentine';
 import StartScreen from './pages/EventValentine/StartScreen';
 import AudioProvider from './components/AudioProvider';
+import { ButtonAudio } from './components/ButtonAnimation/AudioButton';
 
 
 // Map itemId to route
@@ -35,7 +36,7 @@ function AppContent() {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [shouldResetItems, setShouldResetItems] = useState(false);
   const { showTutorial, hideTutorial } = useTutorial();
-  const hasEventPage = window.location.pathname === '/event-page'||window.location.pathname === '/start-game';
+  const hasEventPage = window.location.pathname === '/event-page' || window.location.pathname === '/start-game';
 
 
 
@@ -100,12 +101,11 @@ function AppContent() {
 
   // Monster visible: ẩn khi calendar mở
   const isMonsterVisible = !isCalendarOpen;
-
   return (
     <div className="min-h-screen  flex flex-col">
       <Snowfall style={{ zIndex: 1000 }} />
       <Notification />
-
+      {!(isMonsterVisible && !hasEventPage) && <ButtonAudio />}
       <main className="flex-1 flex items-center justify-center">
         <Routes>
           <Route
