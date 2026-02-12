@@ -8,6 +8,7 @@ import CodeMessage from "./CodeMessage";
 import { useDispatch } from "react-redux";
 import { playBgm } from "../../store/audioSlice";
 import { useNavigate } from "react-router-dom";
+import { playSfx } from "../../ultils/playSfx";
 
 const progressBarClasses =
     "w-full h-2.5 rounded-full overflow-hidden bg-white/20 backdrop-blur-sm border border-white/30 shadow-lg";
@@ -122,6 +123,7 @@ export default function EventPage() {
     const scene = story[sceneId];
 
     const handleChoice = (choice: Choice) => {
+        playSfx("/sound/click.mp3", 0.5);
         if (choice.next === "prevending") {
             dispatch(playBgm("/audiogame/winner.mp3"));
         }
