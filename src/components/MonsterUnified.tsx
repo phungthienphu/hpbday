@@ -220,9 +220,6 @@ const MonsterUnified = () => {
           position={{ right: "15px", top: "40px" }}
           pupilOffset={pupilPositions.right}
         />
-        {/* <div className="absolute block right-1/2 transform translate-x-1/2 top-0 w-12 h-3 bg-[#72c8fa] rounded-full"></div> */}
-        {/* <div className="absolute block right-1/2 transform translate-x- top-0 w-12 h-3 bg-[#72c8fa] rounded-full"></div> */}
-
         <div className="absolute block left-2 bottom-[50px] w-4 h-4 bg-[#fa80725f] rounded-full"></div>
         <div className="absolute block right-2 bottom-[50px] w-4 h-4 bg-[#fa80725f] rounded-full"></div>
         {/* Mouth */}

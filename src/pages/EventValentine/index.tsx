@@ -4,11 +4,11 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { story, type Choice } from "../../types/story";
 import { badEnd } from "../../types/story";
-import CodeMessage from "./CodeMessage";
-import { useDispatch } from "react-redux";
-import { playBgm } from "../../store/audioSlice";
+import CodeMessage from "../../components/CodeMessage";
+import { useAppDispatch } from "../../store/hooks";
+import { playBgm, stopBgm } from "../../features/audioSlice";
 import { useNavigate } from "react-router-dom";
-import { playSfx } from "../../ultils/playSfx";
+import { playSfx } from "../../utils/playSfx";
 
 const progressBarClasses =
     "w-full h-2.5 rounded-full overflow-hidden bg-white/20 backdrop-blur-sm border border-white/30 shadow-lg";
@@ -49,7 +49,7 @@ const GameButton = ({
 export default function EventPage() {
     const [sceneId, setSceneId] = useState(0);
     const [status, setStatus] = useState(1);
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const [isOpen, setIsopen] = useState(false);
     const navigator = useNavigate()
     const totalScenes = story.length;
@@ -139,6 +139,7 @@ export default function EventPage() {
         setSceneId((prev) => (prev > 0 ? prev - 1 : 0));
     };
     const handleChoiceQuit = () => {
+        dispatch(stopBgm());
         navigator('/start-game')
     }
 

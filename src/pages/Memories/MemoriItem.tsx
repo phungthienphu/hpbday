@@ -2,12 +2,7 @@ import { FaEdit, FaEllipsisH, FaTrash } from "react-icons/fa";
 import { useState } from "react";
 import ModalCustom from "../../components/Modal/modalCustom";
 import ActionAlbum from "./ActionAlbum";
-interface IFolder {
-  _id: string;
-  name: string;
-  description: string;
-  previewImage: string;
-}
+import type { IFolder } from "../../types/folder";
 
 interface MemoriesItemProps {
   folder: IFolder;

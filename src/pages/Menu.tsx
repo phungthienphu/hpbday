@@ -1,102 +1,79 @@
-import { useSelector } from 'react-redux';
-import type { RootState } from '../store/store';
-import { Link } from 'react-router-dom';
+import { useAppSelector } from "../store/hooks";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+
+const sections = [
+  {
+    to: "/code-input",
+    icon: "💌",
+    title: "Nhập mã lời chúc",
+    description: "Nhập các mã em cào trúng và nhận thông điệp từ anh nhé!",
+    hint: "Mỗi mã là một lời yêu thương",
+  },
+];
 
 const Menu = () => {
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-[70vh] flex items-center justify-center px-4 sm:px-6 py-10">
-        <div className="max-w-4xl w-full">
-          <div className="card animate-fade-in bg-gradient-to-r from-pastel-pink/80 via-pastel-peach/80 to-pastel-blue/80 shadow-2xl flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-            <div className="md:w-2/3 pr-0 md:pr-8 text-center md:text-left">
-              <p className="text-xs tracking-[0.3em] uppercase text-gray-700 mb-3">
-                Event
-              </p>
-              <h1 className="text-3xl font-semibold text-gray-900 mb-3">
-                Unlock the birthday sections
-              </h1>
-              <p className="text-sm text-gray-700 mb-4">
-                Đăng nhập để mở khóa form nhập mã lời chúc và gallery kỷ niệm của
-                nhân vật chính trong ngày sinh nhật.
-              </p>
-
-              <div className="grid sm:grid-cols-2 gap-4 text-sm text-gray-700">
-                <div className="bg-white/60 rounded-xl p-4">
-                  <h3 className="font-semibold mb-2">💌 Mã lời chúc</h3>
-                  <p>
-                    Mỗi mã tương ứng với một lời chúc sinh nhật riêng, nội dung chỉ
-                    xuất hiện khi nhập đúng.
-                  </p>
-                </div>
-                <div className="bg-white/60 rounded-xl p-4">
-                  <h3 className="font-semibold mb-2">📸 Kỷ niệm</h3>
-                  <p>
-                    Bộ sưu tập ảnh sinh nhật và những khoảnh khắc đáng nhớ xung
-                    quanh người được chúc.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-2 md:mt-0 md:w-1/3 flex md:flex-col items-center justify-center gap-4">
-              <div className="text-6xl">🔒</div>
-              <Link to="/" className="btn-primary">
-                Đăng nhập để tiếp tục
-              </Link>
-            </div>
+      <div className="max-w-lg mx-auto py-8 sm:py-16 text-center px-1">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="card py-10 sm:py-12"
+        >
+          <div className="w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-4 sm:mb-5 bg-primary-50 rounded-2xl flex items-center justify-center">
+            <span className="text-2xl sm:text-3xl">🔒</span>
           </div>
-        </div>
+          <h1 className="text-lg sm:text-xl font-bold text-surface-800 mb-2">Đăng nhập để tiếp tục</h1>
+          <p className="text-sm text-surface-500 mb-6 max-w-xs mx-auto">
+            Đăng nhập để mở khóa form nhập mã lời chúc và gallery kỷ niệm.
+          </p>
+          <Link to="/login" className="btn-primary">Đăng nhập</Link>
+        </motion.div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto  lg:px-4 md:px-4 px:1 lg:py-12 md:py-12 py-6">
-      <div className="max-w-4xl mx-auto">
-        <div className="card text-center lg:mb-8 md:mb-8 mb-4 animate-fade-in bg-gradient-to-r from-pastel-pink/80 via-pastel-peach/80 to-pastel-blue/80">
-          <h1 className="lg:text-3xl lg:font-bold md:text-4xl md:font-bold text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-pastel-pink to-pastel-purple mb-4">
-            ✨ Birthday sections ✨
-          </h1>
-          <p className="text-base text-gray-700 px-3 lg:px-0">
-            Chọn một trong những mục bên dưới để xem lời chúc và kỷ niệm sinh nhật.
-          </p>
-        </div>
+    <div className="max-w-2xl mx-auto">
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mb-5 sm:mb-6"
+      >
+        <h1 className="text-xl sm:text-2xl font-bold text-surface-800">Event</h1>
+        <p className="text-sm text-surface-500 mt-0.5">
+          Chọn một mục bên dưới để xem lời chúc và kỷ niệm sinh nhật.
+        </p>
+      </motion.div>
 
-        <div className="grid gap-6">
-          {/* Code Input Card */}
-          <Link to="/code-input">
-            <div className="card card-hover text-center cursor-pointer animate-slide-up group">
-              <div className="text-4xl mb-4 group-hover:animate-bounce">💌</div>
-              <h2 className="text-xl font-bold text-pastel-purple mb-3">
-                Nhập mã lời chúc
-              </h2>
-              <p className="text-gray-600 mb-4 px-3 lg:px-0">
-                Nhập các mã em cào trúng và nhận thông điệp từ anh nhé!
-              </p>
-              <div className="bg-pastel-pink/20 p-3 rounded-lg">
-                <p className="text-sm text-gray-700">
-                  🎯 Mỗi mã là một lời yêu thương
-                </p>
+      <div className="space-y-3">
+        {sections.map((section, index) => (
+          <motion.div
+            key={section.to}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.08 * (index + 1) }}
+          >
+            <Link to={section.to}>
+              <div className="card-interactive flex items-center gap-3 sm:gap-4 group">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-primary-50 flex items-center justify-center text-xl sm:text-2xl flex-shrink-0 group-hover:scale-105 transition-transform duration-200">
+                  {section.icon}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h2 className="font-semibold text-surface-800 text-sm sm:text-base">{section.title}</h2>
+                  <p className="text-xs sm:text-sm text-surface-500 mt-0.5 line-clamp-2">{section.description}</p>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary-200 group-hover:text-primary-400 group-hover:translate-x-0.5 transition-all flex-shrink-0"><polyline points="9 18 15 12 9 6"/></svg>
               </div>
-            </div>
-          </Link>
-        </div>
-
-        {/* Info Card */}
-        {/* <div className="card mt-8 bg-gradient-to-r from-pastel-pink to-pastel-purple text-white text-center animate-fade-in">
-          <h3 className="text-xl font-bold mb-2">
-            💡 Lưu ý
-          </h3>
-          <p>
-            Em chỉ được dùng mục này khi thực sự cần thiết thôi nhé!
-          </p>
-        </div> */}
+            </Link>
+          </motion.div>
+        ))}
       </div>
     </div>
   );
 };
 
 export default Menu;
-

@@ -1,37 +1,26 @@
 import { useMemo, useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import type { RootState } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useNavigate } from "react-router-dom";
-import "swiper/css";
-import "swiper/css/navigation";
 import Sliderdetail from "./Sliderdetail";
-import folder from "../../client/folder";
+import folder from "../../api/folder";
 import ImagePreview from "../../components/ImagePreview";
 import { FaPlus } from "react-icons/fa";
 import ActionAlbum from "./ActionAlbum";
-import { setLoading } from "../../features/authSlice";
+import { setGlobalLoading } from "../../features/uiSlice";
 import { setSuccess } from "../../features/uiSlice";
 import MemoriesItem from "./MemoriItem";
+import type { IFolder } from "../../types/folder";
 
 const HERO_SEED = Math.random();
-interface IFolder {
-  createdAt: string;
-  description: string;
-  name: string;
-  path: string;
-  previewImage: string;
-  updatedAt: string;
-  __v: number;
-  _id: string;
-}
+
 const Memories = () => {
   const navigate = useNavigate();
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
   const [selectedAlbum, setSelectedAlbum] = useState<string>();
   const [openModal, setOpenModal] = useState(false);
   const [folders, setFolders] = useState<IFolder[]>([]);
   const [modalAction, setModalAction] = useState<boolean>(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const heroImage = useMemo<IFolder | null>(() => {
     if (!folders.length) return null;
     const idx = Math.floor(HERO_SEED * folders.length) % folders.length;
@@ -48,26 +37,25 @@ const Memories = () => {
   };
   const fetchFolders = async () => {
     try {
-      dispatch(setLoading(true));
+      dispatch(setGlobalLoading(true));
       const response = await folder.getFolders();
       setFolders(response as IFolder[]);
     } catch (error) {
       console.error(error);
     } finally {
-      dispatch(setLoading(false));
+      dispatch(setGlobalLoading(false));
     }
   };
   const handleDelete = async (folderId: string) => {
     try {
-      dispatch(setLoading(true));
-      const response = await folder.deleteFolder(folderId);
-      console.log(response);
+      dispatch(setGlobalLoading(true));
+      await folder.deleteFolder(folderId);
       dispatch(setSuccess("Album đã được xóa thành công"));
       fetchFolders();
     } catch (error) {
       console.error(error);
     } finally {
-      dispatch(setLoading(false));
+      dispatch(setGlobalLoading(false));
     }
   };
   useEffect(() => {
