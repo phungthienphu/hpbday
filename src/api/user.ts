@@ -1,5 +1,6 @@
 import client from "./client";
 import type { IUser, UpdateProfilePayload } from "../types/user";
+import type { UserSearchResult } from "../types/group";
 
 export const userApi = {
   async updateProfile(payload: UpdateProfilePayload): Promise<IUser> {
@@ -13,6 +14,16 @@ export const userApi = {
     const { data } = await client.patch("/users/me/avatar", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
+    return data;
+  },
+
+  async getUsers(): Promise<IUser[]> {
+    const { data } = await client.get("/users");
+    return data;
+  },
+
+  async searchUsers(q: string): Promise<UserSearchResult[]> {
+    const { data } = await client.get("/users/search", { params: { q } });
     return data;
   },
 };

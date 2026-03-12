@@ -24,6 +24,7 @@ const ItemsPage = () => {
   const [filterCategory, setFilterCategory] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
   const [filterPriority, setFilterPriority] = useState("");
+  const [filterScope, setFilterScope] = useState("");
 
   const fetchItems = useCallback(async () => {
     setLoading(true);
@@ -65,9 +66,10 @@ const ItemsPage = () => {
 
   const categories = [...new Set(items.map((i) => i.category))];
 
-  const filteredItems = filterPriority
-    ? items.filter((i) => i.priority === filterPriority)
-    : items;
+  let filteredItems = items;
+  if (filterPriority) filteredItems = filteredItems.filter((i) => i.priority === filterPriority);
+  if (filterScope === "personal") filteredItems = filteredItems.filter((i) => !i.group);
+  if (filterScope === "group") filteredItems = filteredItems.filter((i) => !!i.group);
 
   const grouped = filteredItems.reduce(
     (acc, item) => {
@@ -97,6 +99,32 @@ const ItemsPage = () => {
           <span className="hidden sm:inline">Thêm mới</span>
           <span className="sm:hidden">Thêm</span>
         </Link>
+      </motion.div>
+
+      {/* Scope tabs */}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.03 }}
+        className="flex gap-1 mb-3 sm:mb-4 p-1 bg-surface-100/60 rounded-xl w-fit"
+      >
+        {[
+          { value: "", label: "Tất cả" },
+          { value: "personal", label: "Cá nhân" },
+          { value: "group", label: "Nhóm" },
+        ].map((tab) => (
+          <button
+            key={tab.value}
+            onClick={() => setFilterScope(tab.value)}
+            className={`px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 ${
+              filterScope === tab.value
+                ? "bg-white text-primary-600 shadow-soft"
+                : "text-surface-500 hover:text-surface-700"
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
       </motion.div>
 
       {/* Filters */}
@@ -215,6 +243,15 @@ function ItemCard({
             <p className="text-xs sm:text-sm text-surface-500 mt-1 line-clamp-2">{item.note}</p>
           )}
           <div className="flex items-center gap-3 mt-1.5 flex-wrap">
+            {item.group && (
+              <Link
+                to={`/groups/${typeof item.group === "string" ? item.group : item.group._id}`}
+                className="inline-flex items-center gap-1 text-xs text-accent-500 hover:text-accent-600 font-medium"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                {typeof item.group === "string" ? "Nhóm" : item.group.name}
+              </Link>
+            )}
             {item.link && (
               <a
                 href={item.link}
@@ -227,9 +264,22 @@ function ItemCard({
               </a>
             )}
             {/* Mobile: show status inline */}
-            <span className={`badge sm:hidden ${STATUS_COLORS[item.status]}`}>
-              {STATUS_LABELS[item.status]}
-            </span>
+            {isAdmin ? (
+              <select
+                value={item.status}
+                onChange={(e) => onStatusChange(item._id, e.target.value as ItemStatus)}
+                className={`badge sm:hidden cursor-pointer border-0 pr-6 appearance-none bg-no-repeat bg-[right_4px_center] bg-[length:12px] ${STATUS_COLORS[item.status]}`}
+                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")` }}
+              >
+                {STATUS_OPTIONS.map((s) => (
+                  <option key={s} value={s}>{STATUS_LABELS[s]}</option>
+                ))}
+              </select>
+            ) : (
+              <span className={`badge sm:hidden ${STATUS_COLORS[item.status]}`}>
+                {STATUS_LABELS[item.status]}
+              </span>
+            )}
           </div>
         </div>
 

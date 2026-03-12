@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   useLocation,
@@ -32,19 +32,31 @@ function AppContent() {
     }
   }, [isAuthenticated, dispatch]);
 
-  const isMonsterVisible = !isFullscreen;
+  const isMonsterPage = !isFullscreen;
+  const [monsterHidden, setMonsterHidden] = useState(false);
 
   return (
     <div className="min-h-screen flex flex-col">
       <Snowfall style={{ zIndex: 1000 }} />
       <Notification />
-      {!isMonsterVisible && <ButtonAudio />}
+      {!isMonsterPage && <ButtonAudio />}
 
       <main className="flex-1 flex justify-center">
         <AppRoutes />
       </main>
 
-      {isMonsterVisible && <MonsterUnified />}
+      {isMonsterPage && !monsterHidden && <MonsterUnified />}
+
+      {/* Monster toggle button */}
+      {isMonsterPage && (
+        <button
+          onClick={() => setMonsterHidden((h) => !h)}
+          className="fixed bottom-4 right-4 z-50 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm border border-primary-100 shadow-soft flex items-center justify-center text-lg hover:shadow-elevated hover:scale-105 active:scale-95 transition-all duration-200"
+          title={monsterHidden ? "Hiện Monster" : "Ẩn Monster"}
+        >
+          {monsterHidden ? "👻" : "🙈"}
+        </button>
+      )}
     </div>
   );
 }

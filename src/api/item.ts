@@ -11,6 +11,7 @@ export const itemApi = {
     category?: string;
     status?: string;
     priority?: string;
+    group?: string;
   }): Promise<IItem[]> {
     const { data } = await client.get("/items", { params });
     return data;
@@ -33,6 +34,11 @@ export const itemApi = {
 
   async updateStatus(id: string, status: ItemStatus): Promise<IItem> {
     const { data } = await client.patch(`/items/${id}/status`, { status });
+    return data;
+  },
+
+  async updateGroup(id: string, group: string | null): Promise<IItem> {
+    const { data } = await client.patch(`/items/${id}/group`, { group });
     return data;
   },
 

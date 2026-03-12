@@ -12,6 +12,8 @@ import LoginPage from "./pages/Auth/LoginPage";
 import ProfilePage from "./pages/Profile/ProfilePage";
 import ItemsPage from "./pages/Items/ItemsPage";
 import ItemForm from "./pages/Items/ItemForm";
+import GroupsPage from "./pages/Groups/GroupsPage";
+import GroupDetail from "./pages/Groups/GroupDetail";
 
 const AppRoutes = () => {
   return (
@@ -58,6 +60,22 @@ const AppRoutes = () => {
           element={
             <PrivateRoute>
               <ItemForm />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/groups"
+          element={
+            <PrivateRoute>
+              <GroupsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/groups/:id"
+          element={
+            <PrivateRoute>
+              <GroupDetail />
             </PrivateRoute>
           }
         />
