@@ -13,7 +13,6 @@ export default function AudioProvider({
         (state: RootState) => state.audio
     );
 
-    // khởi tạo 1 lần
     useEffect(() => {
         const audio = new Audio();
         audio.loop = true;
@@ -25,57 +24,28 @@ export default function AudioProvider({
         };
     }, []);
 
-    // đổi source
     useEffect(() => {
         const audio = audioRef.current;
-        if (!audio || !bgm) return;
+        if (!audio) return;
 
-        // tránh reload nếu cùng src
+        if (!bgm) {
+            audio.pause();
+            audio.removeAttribute("src");
+            return;
+        }
+
         if (!audio.src.includes(bgm)) {
             audio.src = bgm;
-            audio.load();
         }
-    }, [bgm]);
 
-    // volume
-    useEffect(() => {
-        const audio = audioRef.current;
-        if (!audio) return;
-
-        audio.volume = volume;
-    }, [volume]);
-
-    // play / pause logic chuẩn
-    useEffect(() => {
-        const audio = audioRef.current;
-        if (!audio) return;
-      
-        if (!bgm) {
-          audio.pause();
-          audio.removeAttribute("src");
-          return;
-        }
-      
-        const needChangeSrc = !audio.src.includes(bgm);
-      
-        if (needChangeSrc) {
-          audio.src = bgm;
-          // KHÔNG nhất thiết phải gọi audio.load() thủ công
-        }
-      
         if (playing && !paused) {
-          // đảm bảo track mới được play
-          audio
-            .play()
-            .catch(() => {
-              // có thể log để debug quyền autoplay
-            });
+            audio.play().catch(() => {});
         } else {
-          audio.pause();
+            audio.pause();
         }
-      
+
         audio.volume = volume;
-      }, [bgm, playing, paused, volume]);
+    }, [bgm, playing, paused, volume]);
 
     return <>{children}</>;
 }

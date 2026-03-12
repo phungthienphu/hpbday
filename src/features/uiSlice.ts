@@ -1,22 +1,24 @@
-import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 
 interface UiState {
   showError: boolean;
   errorMessage: string;
   showSuccess: boolean;
   successMessage: string;
+  globalLoading: boolean;
 }
 
 const initialState: UiState = {
   showError: false,
-  errorMessage: '',
+  errorMessage: "",
   showSuccess: false,
-  successMessage: '',
+  successMessage: "",
+  globalLoading: false,
 };
 
 const uiSlice = createSlice({
-  name: 'ui',
+  name: "ui",
   initialState,
   reducers: {
     setError: (state, action: PayloadAction<string>) => {
@@ -25,7 +27,7 @@ const uiSlice = createSlice({
     },
     clearError: (state) => {
       state.showError = false;
-      state.errorMessage = '';
+      state.errorMessage = "";
     },
     setSuccess: (state, action: PayloadAction<string>) => {
       state.showSuccess = true;
@@ -33,11 +35,14 @@ const uiSlice = createSlice({
     },
     clearSuccess: (state) => {
       state.showSuccess = false;
-      state.successMessage = '';
+      state.successMessage = "";
+    },
+    setGlobalLoading: (state, action: PayloadAction<boolean>) => {
+      state.globalLoading = action.payload;
     },
   },
 });
 
-export const { setError, clearError, setSuccess, clearSuccess } = uiSlice.actions;
+export const { setError, clearError, setSuccess, clearSuccess, setGlobalLoading } =
+  uiSlice.actions;
 export default uiSlice.reducer;
-

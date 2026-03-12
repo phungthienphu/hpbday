@@ -1,8 +1,10 @@
-import { useSelector } from "react-redux";
-import type { RootState } from "../../store/store";
+import { useAppSelector } from "../../store/hooks";
 
 const LoadingComponent = () => {
-  const { isLoading } = useSelector((state: RootState) => state.auth);
+  const authLoading = useAppSelector((state) => state.auth.isLoading);
+  const globalLoading = useAppSelector((state) => state.ui.globalLoading);
+  const isLoading = authLoading || globalLoading;
+
   return (
     isLoading && (
       <div

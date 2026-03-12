@@ -1,10 +1,10 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { FiChevronLeft, FiChevronRight, FiX } from "react-icons/fi";
-import { useDispatch } from "react-redux";
-import { setLoading } from "../../features/authSlice";
+import { useAppDispatch } from "../../store/hooks";
+import { setGlobalLoading } from "../../features/uiSlice";
 import { setError, setSuccess } from "../../features/uiSlice";
-import image from "../../client/image";
+import image from "../../api/image";
 import { GalleryImages, type GalleryImage } from "./Carousel";
 
 const Sliderdetail = ({
@@ -21,7 +21,7 @@ const Sliderdetail = ({
   const [previewIndex, setPreviewIndex] = useState<number | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const touchStartRef = useRef<number | null>(null);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const fetchImagesFromAlbum = useCallback(async () => {
     if (!selectedAlbum) return;
@@ -33,13 +33,13 @@ const Sliderdetail = ({
     if (!openModal || !selectedAlbum) return;
     const loadImages = async () => {
       try {
-        dispatch(setLoading(true));
+        dispatch(setGlobalLoading(true));
         await fetchImagesFromAlbum();
       } catch (error) {
         console.error(error);
         dispatch(setError("Không thể tải ảnh, thử lại sau nhé!"));
       } finally {
-        dispatch(setLoading(false));
+        dispatch(setGlobalLoading(false));
       }
     };
     loadImages();
@@ -75,7 +75,7 @@ const Sliderdetail = ({
     if (!files?.length || !selectedAlbum) return;
 
     try {
-      dispatch(setLoading(true));
+      dispatch(setGlobalLoading(true));
 
       // Convert FileList -> File[]
       const fileArray = Array.from(files);
@@ -91,7 +91,7 @@ const Sliderdetail = ({
       console.error(error);
       dispatch(setError("Không thể thêm ảnh, thử lại sau nhé!"));
     } finally {
-      dispatch(setLoading(false));
+      dispatch(setGlobalLoading(false));
       // Reset input để có thể upload lại cùng file
       event.target.value = "";
     }

@@ -1,15 +1,14 @@
 import { useEffect, type ReactNode } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { FiCheckCircle, FiAlertTriangle, FiX } from "react-icons/fi";
-import type { RootState } from "../../store/store";
 import { clearError, clearSuccess } from "../../features/uiSlice";
 
 const AUTO_HIDE_MS = 4000;
 
 const Notification = () => {
-  const dispatch = useDispatch();
-  const { showError, errorMessage, showSuccess, successMessage } = useSelector(
-    (state: RootState) => state.ui
+  const dispatch = useAppDispatch();
+  const { showError, errorMessage, showSuccess, successMessage } = useAppSelector(
+    (state) => state.ui
   );
 
   useEffect(() => {

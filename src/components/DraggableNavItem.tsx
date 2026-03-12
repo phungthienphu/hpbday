@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, useMotionValue } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { playBgm } from '../store/audioSlice';
+import { useAppDispatch } from '../store/hooks';
+import { playBgm } from '../features/audioSlice';
 
 interface DraggableNavItemProps {
   itemId: string;
@@ -34,7 +34,7 @@ const DraggableNavItem = ({
   const [initialPos, setInitialPos] = useState<{ x: number; y: number } | null>(null);
   const itemRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // Motion values for smooth reset animation
   const x = useMotionValue(0);

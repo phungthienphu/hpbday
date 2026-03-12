@@ -5,11 +5,11 @@ import { FaPlus } from "react-icons/fa";
 import { FiTrash2 } from "react-icons/fi";
 import ModalCustom from "../../components/Modal/modalCustom";
 import { useCallback, useState } from "react";
-import { setLoading } from "../../features/authSlice";
-import image from "../../client/image";
+import { setGlobalLoading } from "../../features/uiSlice";
+import image from "../../api/image";
 import { setError } from "../../features/uiSlice";
 import { setSuccess } from "../../features/uiSlice";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../store/hooks";
 
 export interface GalleryImage {
   _id: string;
@@ -31,11 +31,11 @@ export function GalleryImages({
 }: GalleryImagesProps) {
   const [modalDeleteImage, setModalDeleteImage] = useState(false);
   const [imageId, setImageId] = useState<string | null>(null);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const handleDeleteImage = useCallback(async () => {
     if (!imageId) return;
     try {
-      dispatch(setLoading(true));
+      dispatch(setGlobalLoading(true));
       await image.deleteImage(imageId);
       dispatch(setSuccess("Ảnh đã được xóa thành công"));
       fetchImagesFromAlbum();
@@ -43,7 +43,7 @@ export function GalleryImages({
       console.error(error);
       dispatch(setError("Không thể xóa ảnh, thử lại sau nhé!"));
     } finally {
-      dispatch(setLoading(false));
+      dispatch(setGlobalLoading(false));
       setImageId(null);
       setModalDeleteImage(false);
     }
@@ -112,7 +112,6 @@ export function GalleryImages({
               onClick={(e: React.MouseEvent<HTMLDivElement>) => {
                 e.stopPropagation();
                 setModalDeleteImage(true);
-                console.log(img);
                 setImageId(img._id);
               }}
             >

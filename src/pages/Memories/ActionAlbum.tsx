@@ -3,16 +3,12 @@ import { Fragment, useEffect, useRef } from "react";
 import { FaTimes } from "react-icons/fa";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import folder from "../../client/folder";
-import { setLoading } from "../../features/authSlice";
-import { useDispatch } from "react-redux";
+import folder from "../../api/folder";
+import { setGlobalLoading } from "../../features/uiSlice";
+import { useAppDispatch } from "../../store/hooks";
 import { setSuccess } from "../../features/uiSlice";
-interface IFolder {
-  _id: string;
-  name: string;
-  description: string;
-  previewImage: string;
-}
+import type { IFolder } from "../../types/folder";
+
 interface ActionAlbumProps {
   openModal: boolean;
   closeModal: () => void;
@@ -27,7 +23,7 @@ const ActionAlbum = ({
   initialFolder,
 }: ActionAlbumProps) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const AlbumFormik = useFormik({
     initialValues: {
       Name: "",
@@ -39,14 +35,13 @@ const ActionAlbum = ({
       Description: Yup.string().required("Mô tả là bắt buộc"),
       previewFile: Yup.mixed().required("Ảnh preview là bắt buộc"),
     }),
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: () => {
       CreateFolder();
     },
   });
   const CreateFolder = async () => {
     try {
-      dispatch(setLoading(true));
+      dispatch(setGlobalLoading(true));
       if (initialFolder) {
         await folder.updateFolder(
           initialFolder._id,
@@ -62,12 +57,12 @@ const ActionAlbum = ({
         );
       }
       dispatch(setSuccess("Album đã được tạo thành công"));
-    } catch (error) {
-      console.log(error);
+    } catch {
+      // handled silently
     } finally {
       closeModal();
       fetchFolders();
-      dispatch(setLoading(false));
+      dispatch(setGlobalLoading(false));
     }
   };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
