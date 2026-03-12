@@ -16,7 +16,7 @@ export default function StartScreen() {
 
     const onBack = () => {
         dispatch(stopBgm());
-        navigate(-1);
+        navigate('/');
     };
 
     return (
