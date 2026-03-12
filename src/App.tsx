@@ -25,12 +25,12 @@ function AppContent() {
 
   const isFullscreen = FULLSCREEN_PATHS.includes(location.pathname);
 
-  // Fetch user profile on mount if token exists
+  // Fetch user profile when authenticated (on mount and after login)
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(fetchMe());
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isAuthenticated, dispatch]);
 
   const isMonsterVisible = !isFullscreen;
 
