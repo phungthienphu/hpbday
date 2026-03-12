@@ -10,6 +10,7 @@ export interface IItem {
   note: string;
   status: ItemStatus;
   createdBy: string | { _id: string; name: string; username: string };
+  group?: string | { _id: string; name: string };
   createdAt: string;
   updatedAt: string;
 }
@@ -20,6 +21,7 @@ export interface CreateItemPayload {
   priority: Priority;
   link?: string;
   note?: string;
+  group?: string;
 }
 
 export interface UpdateItemPayload {

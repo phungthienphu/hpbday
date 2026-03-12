@@ -1,13 +1,18 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { itemApi } from "../../api/item";
+import { groupApi } from "../../api/group";
 import type { Priority } from "../../types/item";
 import { PRIORITY_LABELS } from "../../types/item";
+import type { IGroup } from "../../types/group";
 import SelectField from "../../components/ui/SelectField";
 
 const ItemForm = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const groupIdFromUrl = searchParams.get("group");
+
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
@@ -16,14 +21,31 @@ const ItemForm = () => {
   const [priority, setPriority] = useState<Priority>("medium");
   const [link, setLink] = useState("");
   const [note, setNote] = useState("");
+  const [groupId, setGroupId] = useState(groupIdFromUrl || "");
+  const [groups, setGroups] = useState<IGroup[]>([]);
+
+  const isGroupContext = !!groupIdFromUrl;
+
+  useEffect(() => {
+    if (!isGroupContext) {
+      groupApi.getGroups().then(setGroups).catch(() => {});
+    }
+  }, [isGroupContext]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
     setError("");
     try {
-      await itemApi.createItem({ name, category, priority, link, note });
-      navigate("/items");
+      await itemApi.createItem({
+        name,
+        category,
+        priority,
+        link,
+        note,
+        ...(groupId ? { group: groupId } : {}),
+      });
+      navigate(groupId ? `/groups/${groupId}` : "/items");
     } catch {
       setError("Tạo item thất bại. Vui lòng thử lại.");
     } finally {
@@ -40,14 +62,16 @@ const ItemForm = () => {
       >
         <button
           type="button"
-          onClick={() => navigate("/items")}
+          onClick={() => navigate(isGroupContext ? `/groups/${groupIdFromUrl}` : "/items")}
           className="btn-ghost text-xs mb-4"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
           Quay lại
         </button>
         <h1 className="text-xl sm:text-2xl font-bold text-surface-800">Thêm món mới</h1>
-        <p className="text-sm text-surface-500 mt-0.5">Thêm món đồ bạn muốn vào wishlist</p>
+        <p className="text-sm text-surface-500 mt-0.5">
+          {isGroupContext ? "Thêm item vào nhóm" : "Thêm món đồ bạn muốn vào wishlist"}
+        </p>
       </motion.div>
 
       <motion.div
@@ -129,6 +153,23 @@ const ItemForm = () => {
             />
           </div>
 
+          {!isGroupContext && groups.length > 0 && (
+            <div>
+              <label className="block text-sm font-medium text-surface-700 mb-1.5">
+                Nhóm (tuỳ chọn)
+              </label>
+              <SelectField
+                value={groupId}
+                onChange={setGroupId}
+                options={groups.map((g) => ({ value: g._id, label: g.name }))}
+                placeholder="Đồ cá nhân"
+              />
+              <p className="text-xs text-surface-400 mt-1">
+                Để trống nếu đây là item riêng của bạn
+              </p>
+            </div>
+          )}
+
           <div className="flex gap-3 pt-2">
             <button
               type="submit"
@@ -139,7 +180,7 @@ const ItemForm = () => {
             </button>
             <button
               type="button"
-              onClick={() => navigate("/items")}
+              onClick={() => navigate(isGroupContext ? `/groups/${groupIdFromUrl}` : "/items")}
               className="btn-secondary flex-1 justify-center"
             >
               Hủy
