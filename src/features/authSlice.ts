@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { authApi } from "../api/auth";
+import { faceApi } from "../api/face";
 import type { IUser, LoginPayload, RegisterPayload } from "../types/user";
 import { TOKEN_KEY } from "../api/client";
 
@@ -42,6 +43,21 @@ export const registerUser = createAsyncThunk(
       const error = err as { response?: { data?: { message?: string } } };
       return rejectWithValue(
         error.response?.data?.message || "Đăng ký thất bại",
+      );
+    }
+  },
+);
+
+export const faceLoginUser = createAsyncThunk(
+  "auth/faceLogin",
+  async (faceDescriptor: number[], { rejectWithValue }) => {
+    try {
+      const { user } = await faceApi.login(faceDescriptor);
+      return user;
+    } catch (err: unknown) {
+      const error = err as { response?: { data?: { message?: string } } };
+      return rejectWithValue(
+        error.response?.data?.message || "Không nhận diện được khuôn mặt",
       );
     }
   },
@@ -109,6 +125,21 @@ const authSlice = createSlice({
       state.user = action.payload;
     });
     builder.addCase(registerUser.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload as string;
+    });
+
+    // Face login
+    builder.addCase(faceLoginUser.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+    builder.addCase(faceLoginUser.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isAuthenticated = true;
+      state.user = action.payload;
+    });
+    builder.addCase(faceLoginUser.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.payload as string;
     });

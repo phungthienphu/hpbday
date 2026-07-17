@@ -16,6 +16,7 @@ const AUTH_NAV_ITEMS = [
   { to: "/memories", label: "Memories" },
   { to: "/items", label: "Wishlist" },
   { to: "/groups", label: "Nhóm" },
+  { to: "/face", label: "Khuôn mặt" },
 ];
 
 const Header = () => {

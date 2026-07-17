@@ -14,6 +14,7 @@ import ItemsPage from "./pages/Items/ItemsPage";
 import ItemForm from "./pages/Items/ItemForm";
 import GroupsPage from "./pages/Groups/GroupsPage";
 import GroupDetail from "./pages/Groups/GroupDetail";
+import FacePage from "./pages/Face/FacePage";
 
 const AppRoutes = () => {
   return (
@@ -76,6 +77,14 @@ const AppRoutes = () => {
           element={
             <PrivateRoute>
               <GroupDetail />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/face"
+          element={
+            <PrivateRoute>
+              <FacePage />
             </PrivateRoute>
           }
         />
